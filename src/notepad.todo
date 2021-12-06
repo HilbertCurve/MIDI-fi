@@ -1,0 +1,16 @@
+MIDI-fi
+
+Renderer:
+    The renderer is mostly done; there's just a couple of bugs to fix
+    [ ] Better texture handler
+    [ ] Fonts
+
+UI:
+    [ ] Plan...
+
+Roadmap:
+    [ ] Fix the renderer
+    [ ] Start designing the look-and-feel
+    [ ] Plan out a UI
+    [ ] Audio
+    [ ] Start work on MIDI editing and interpreting
