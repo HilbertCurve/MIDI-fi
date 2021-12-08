@@ -108,12 +108,12 @@ namespace Pontilus
     }
 
     // Texture pool:
-    Graphics::Texture *texPool[8];
+    Graphics::IconMap *iconPool[8];
     static void initTexPool()
     {
         for (int i = 0; i < 8; i++)
         {
-            texPool[i] = nullptr;
+            iconPool[i] = nullptr;
         }
     }
 
@@ -121,7 +121,7 @@ namespace Pontilus
     {
         for (int i = 0; i < 8; i++)
         {
-            texPool[i] = nullptr;
+            iconPool[i] = nullptr;
         }
     }
 

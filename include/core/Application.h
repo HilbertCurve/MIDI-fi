@@ -16,7 +16,7 @@ namespace Pontilus
     extern Graphics::rData linePool;
     extern Graphics::rData fullWindowQuad;
     extern Graphics::rData pointLightPool;
-    extern Graphics::Texture *texPool[8];
+    extern Graphics::IconMap *iconPool[8];
 
     extern float resolution;
 

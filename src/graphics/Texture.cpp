@@ -8,7 +8,7 @@ namespace Pontilus
     namespace Graphics
     {
 
-        void initTexture(const char *filepath, Texture &tex)
+        void initTexture(const char *filepath, IconMap &tex, int textureWidth)
         {
             static int id = 0;
             tex.filepath = filepath;
@@ -63,25 +63,32 @@ namespace Pontilus
                 printf("texID: %d\n\n", tex.texID);
             }
 
-            texPool[id] = &tex;
+            iconPool[id] = &tex;
             id++;
+
+            tex.textureWidth = textureWidth;
 
             delete width;
             delete height;
             delete channels;
         }
 
-        void bindTexture(Texture &t)
+        void bindIconMap(IconMap &t)
         {
             glBindTexture(GL_TEXTURE_2D, t.texID);
             t.beingUsed = true;
         }
 
-        void unbindTexture(Texture &t)
+        void unbindIconMap(IconMap &t)
         {
             glBindTexture(GL_TEXTURE_2D, 0);
             t.beingUsed = false;
         }
 
+        Texture getTexture(IconMap &im, int index)
+        {
+            Texture tex;
+            // get offset from left
+        }
     }
 }

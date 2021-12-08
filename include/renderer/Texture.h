@@ -9,19 +9,28 @@ namespace Pontilus
 {
     namespace Graphics
     {
-        struct Texture
+        struct IconMap
         {
             const char *filepath;
             GLuint texID;
             GLint width, height;
+            GLint textureWidth;
             bool beingUsed;
         };
 
-        void initTexture(const char *filepath, Texture &tex);
+        struct Texture
+        {
+            IconMap source;
+            float texCoords[4];
+        };
 
-        void bindTexture(Texture &t);
-        void unbindTexture(Texture &t);
+        // assumes element width and element height are the same.
+        void initIconMap(const char *filepath, IconMap &tex, int textureWidth);
 
+        void bindIconMap(Texture &t);
+        void unbindIconMap(Texture &t);
+
+        Texture getTexture(IconMap &im, int index);
     }
 }
 

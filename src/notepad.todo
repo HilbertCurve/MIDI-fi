@@ -4,6 +4,7 @@ Renderer:
     The renderer is mostly done; there's just a couple of bugs to fix
     [ ] Better texture handler
     [ ] Fonts
+    [ ] Put these changes into Pontilus engine
 
 UI:
     [ ] Plan...
