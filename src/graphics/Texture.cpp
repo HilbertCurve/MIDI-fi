@@ -1,4 +1,7 @@
-#include "renderer/Texture.h"
+#include "graphics/Texture.h"
+
+#include <math.h>
+#include <glm/glm.hpp>
 
 #include "core/Application.h"
 #include "stb/stb_image.h"
@@ -8,7 +11,7 @@ namespace Pontilus
     namespace Graphics
     {
 
-        void initTexture(const char *filepath, IconMap &tex, int textureWidth)
+        void initIconMap(const char *filepath, IconMap &tex, int textureWidth, int textureHeight)
         {
             static int id = 0;
             tex.filepath = filepath;
@@ -67,6 +70,7 @@ namespace Pontilus
             id++;
 
             tex.textureWidth = textureWidth;
+            tex.textureHeight = textureHeight;
 
             delete width;
             delete height;
@@ -87,8 +91,40 @@ namespace Pontilus
 
         Texture getTexture(IconMap &im, int index)
         {
-            Texture tex;
+            Texture tex = {};
+            tex.source = &im;
+            // get offset from top
+            int pixelsFromTop = std::floor(index * im.textureWidth / im.width) * im.textureHeight;
             // get offset from left
+            int pixelsFromLeft = (index * im.textureWidth) % im.width;
+            
+            glm::vec2 pos1 = {pixelsFromLeft, pixelsFromTop};
+            glm::vec2 pos2 = {pixelsFromLeft + im.textureWidth, pixelsFromTop + im.textureHeight};
+            glm::vec2 center = {im.width / 2, im.height / 2};
+
+            // get relative position based on center of iconmap
+            pos1 -= center;
+            pos1 /= center;
+            
+            // determine coords of bottom right point
+            pos2 -= center;
+            pos2 /= center;
+
+            // insert texcoords for easy use in RData structs and OpenGL
+            float coords[] = 
+            {
+                pos2.x, pos1.y,
+                pos1.x, pos1.y,
+                pos1.x, pos2.y,
+                pos2.x, pos2.y
+            };
+
+            for (int i = 0; i < 8; i++) 
+            {
+                tex.texCoords[i] = coords[i];
+            }
+
+            return tex;
         }
     }
 }

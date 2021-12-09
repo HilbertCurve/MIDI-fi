@@ -9,10 +9,10 @@
 
 #include "core/Application.h"
 #include "core/InputListener.h"
-#include "renderer/Renderer.h"
-#include "renderer/Camera.h"
-#include "renderer/rData.h"
-#include "renderer/Texture.h"
+#include "graphics/Renderer.h"
+#include "graphics/Camera.h"
+#include "graphics/rData.h"
+#include "graphics/Texture.h"
 #include "ui/Scene.h"
 
 namespace Pontilus

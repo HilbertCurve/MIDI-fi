@@ -4,9 +4,9 @@
 
 #include <glm/glm.hpp>
 
-#include "renderer/rData.h"
-#include "renderer/Primitive.h"
-#include "renderer/Texture.h"
+#include "graphics/rData.h"
+#include "graphics/Primitive.h"
+#include "graphics/Texture.h"
 
 namespace Pontilus
 {
@@ -18,7 +18,7 @@ namespace Pontilus
             glm::vec4 color;
             float width, height;
 
-            Graphics::Texture tex = {nullptr, 0, 0, 0, false};
+            Graphics::Texture tex = {nullptr};
             Graphics::Primitive prim = Graphics::Primitives::QUAD;
         };
 

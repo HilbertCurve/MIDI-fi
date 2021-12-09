@@ -14,18 +14,17 @@ namespace Pontilus
             const char *filepath;
             GLuint texID;
             GLint width, height;
-            GLint textureWidth;
+            GLint textureWidth, textureHeight;
             bool beingUsed;
         };
 
         struct Texture
         {
-            IconMap source;
-            float texCoords[4];
+            IconMap *source;
+            float texCoords[8];
         };
 
-        // assumes element width and element height are the same.
-        void initIconMap(const char *filepath, IconMap &tex, int textureWidth);
+        void initIconMap(const char *filepath, IconMap &tex, int textureWidth, int textureHeight);
 
         void bindIconMap(Texture &t);
         void unbindIconMap(Texture &t);

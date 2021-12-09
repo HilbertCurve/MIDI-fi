@@ -2,8 +2,14 @@ MIDI-fi
 
 Renderer:
     The renderer is mostly done; there's just a couple of bugs to fix
-    [ ] Better texture handler
-    [ ] Fonts
+    Better texture handler:
+        [+] Icon maps
+        [ ] Getting some icon assets
+        [ ] Making textures work better with UIElements
+
+    Fonts:
+        [ ] Learn how to use stb_truetype
+        [ ] ...
     [ ] Put these changes into Pontilus engine
 
 UI:

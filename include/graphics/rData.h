@@ -7,7 +7,7 @@
 
 #include <GL/gl.h>
 
-#include "renderer/Shader.h"
+#include "graphics/Shader.h"
 #include "utils/Utils.h"
 
 namespace Pontilus

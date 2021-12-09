@@ -4,8 +4,8 @@
 
 #include "core/Application.h"
 #include "core/InputListener.h"
-#include "renderer/rData.h"
-#include "renderer/Camera.h"
+#include "graphics/rData.h"
+#include "graphics/Camera.h"
 #include "ui/UIElement.h"
 
 namespace Pontilus
@@ -19,6 +19,10 @@ namespace Pontilus
             {
                 g1 = {};
                 initGameObject(g1, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
+
+                Graphics::IconMap im;
+                //Graphics::initIconMap("todo: get icon map file", im, 10, 10);
+
                 s.objs.push_back(g1);
 
                 for (int i = 0; i < s.objs.size(); i++)

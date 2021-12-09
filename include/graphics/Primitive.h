@@ -4,8 +4,8 @@
 
 #include <GL/gl.h>
 
-#include "renderer/Renderer.h"
-#include "renderer/rData.h"
+#include "graphics/Renderer.h"
+#include "graphics/rData.h"
 
 namespace Pontilus
 {

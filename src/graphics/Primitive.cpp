@@ -1,4 +1,4 @@
-#include "renderer/Primitive.h"
+#include "graphics/Primitive.h"
 
 namespace Pontilus
 {

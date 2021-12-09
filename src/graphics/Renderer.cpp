@@ -1,14 +1,14 @@
-#include "renderer/Renderer.h"
+#include "graphics/Renderer.h"
 
 #include <GL/gl.h>
 #include <stdio.h>
 
 #include "core/Application.h"
-#include "renderer/Shader.h"
-#include "renderer/Camera.h"
-#include "renderer/Texture.h"
-#include "renderer/rData.h"
-#include "renderer/Primitive.h"
+#include "graphics/Shader.h"
+#include "graphics/Camera.h"
+#include "graphics/Texture.h"
+#include "graphics/rData.h"
+#include "graphics/Primitive.h"
 #include "ui/UIElement.h"
 
 namespace Pontilus

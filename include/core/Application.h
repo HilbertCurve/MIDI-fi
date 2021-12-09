@@ -5,7 +5,7 @@
 
 #include <GLFW/glfw3.h>
 
-#include "renderer/rData.h"
+#include "graphics/rData.h"
 #include "ui/Scene.h"
 
 namespace Pontilus

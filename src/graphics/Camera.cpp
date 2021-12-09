@@ -1,7 +1,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "renderer/Camera.h"
+#include "graphics/Camera.h"
 #include "core/Application.h"
 
 namespace Pontilus

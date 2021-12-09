@@ -5,7 +5,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 
-#include "renderer/rData.h"
+#include "graphics/rData.h"
 #include "utils/Utils.h"
 
 namespace Pontilus
