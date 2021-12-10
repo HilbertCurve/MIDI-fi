@@ -130,12 +130,12 @@ namespace Pontilus
             Graphics::uploadIntArr(gameShader, "uTextures", texSlots, 8);
             Graphics::uploadFloat(gameShader, "uTime", (float) glfwGetTime());
 
-            for (int i = 0; i < sizeof(texPool)/sizeof(Graphics::Texture *); i++)
+            for (int i = 0; i < 8; i++)
             {
-                if (texPool[i] == nullptr) continue;
+               if (iconPool[i] == nullptr) continue;
 
-                glActiveTexture(GL_TEXTURE0 + i + 1);
-                Graphics::bindTexture(*texPool[i]);
+               glActiveTexture(GL_TEXTURE0 + i + 1);
+               Graphics::bindIconMap(*iconPool[i]);
             }
             
             glBindVertexArray(vaoID);
@@ -146,12 +146,12 @@ namespace Pontilus
             disableVertexAttribs(*currentRData);
             glBindVertexArray(0);
 
-            for (int i = 0; i < sizeof(texPool)/sizeof(Graphics::Texture *); i++)
+            for (int i = 0; i < 8; i++)
             {
-                if (texPool[i] == nullptr) continue;
+                if (iconPool[i] == nullptr) continue;
                 
                 glActiveTexture(GL_TEXTURE0 + i + 1);
-                Graphics::unbindTexture(*texPool[i]);
+                Graphics::unbindIconMap(*iconPool[i]);
             }
 
             Graphics::detachShader(gameShader);

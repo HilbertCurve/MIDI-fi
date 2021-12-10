@@ -25,7 +25,6 @@ namespace Pontilus
         {
             __pAssert(!(rOffset >= r.vertCount / 4), "Rend not big enough to hold game states!");
 
-            static int texID = 1;
             int stride = rOffset * getLayoutLen(r) * 4;
             for (int i = 0; i < 4; i++)
             {
@@ -62,32 +61,38 @@ namespace Pontilus
                 }
 
                 result = getAttribMetaData(r, PONT_TEXCOORD);
+                
                 if (result.second >= 2 * sizeof(float))
                 {
                     orientation.x /= g.width;
                     orientation.y /= g.height;
                     for (int j = 0; j < 2; j++)
                     {
-                        ((float *)((char *)r.data + result.first + stride))[j] = orientation[j];
+                        ((float *)((char *)r.data + result.first + stride))[j] = g.tex.texCoords[j + i * 2];
                     }
                 }
 
                 result = getAttribMetaData(r, PONT_TEXID);
                 if (result.second == 1 * sizeof(float)) // I'd be very confused if there was more than one texID.
                 {
-                    *(float *)((char *)r.data + result.first + stride) = texID; // TODO: gameObject textures
+                    if (g.tex.source == nullptr)
+                    {
+                        *(float *)((char *)r.data + result.first + stride) = 0.0f;
+                    }
+                    else
+                    {
+                        *(float *)((char *)r.data + result.first + stride) = g.tex.source->texID;
+                    }
                 }
                 stride += getLayoutLen(r);
             }
-
-            texID++;
 
             r.isDirty = true;
         }
 
         void gameStateToRData(std::vector<GameObject> gs, rData &r)
         {
-            __pAssert(r.vertCount >= 4 * gs.size(), "Rend not big enough to hold game states!");
+            __pAssert(r.vertCount >= 4 * gs.size(), "rData not big enough to hold game states!");
 
             int stride = 0;
             for (GameObject g : gs)
@@ -148,7 +153,7 @@ namespace Pontilus
                             orientation.y /= g.height;
                             for (int j = 0; j < 2; j++)
                             {
-                                ((float *)((char *)r.data + result.first + offset))[j] = orientation[j];
+                                *(float *)((char *)r.data + result.first + offset) = g.tex.texCoords[j + i * 2];
                             }
                         }
                     } break;

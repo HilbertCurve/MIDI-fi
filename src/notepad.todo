@@ -4,8 +4,12 @@ Renderer:
     The renderer is mostly done; there's just a couple of bugs to fix
     Better texture handler:
         [+] Icon maps
-        [ ] Getting some icon assets
-        [ ] Making textures work better with UIElements
+        [+] Getting some icon assets
+        [+] Making textures work better with UIElements
+        Done by having a method that extracts a texture out of an IconMap at runtime; 
+        saves a little memory, especially for large maps (32 bytes per icon with 256 icons 
+        only is around 8 KB total), but is mildly slower if many icons need to be loaded
+        (that's usually done in the loading screen anyways).
 
     Fonts:
         [ ] Learn how to use stb_truetype

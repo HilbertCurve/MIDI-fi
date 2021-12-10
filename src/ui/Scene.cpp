@@ -13,17 +13,44 @@ namespace Pontilus
     namespace Engine
     {
         static GameObject g1;
+        static GameObject g2;
+        static GameObject g3;
+        static GameObject g4;
+        static Graphics::IconMap im1;
+        static Graphics::IconMap im2;
+        static Graphics::IconMap blueberry;
+        static Graphics::IconMap burger;
+        static Graphics::IconMap pizzaMonster;
         static Scene s = 
         {
             []()
             {
                 g1 = {};
-                initGameObject(g1, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
+                initGameObject(g1, {-7.5f, 0.0f, 0.0f }, { 0.0f, 0.1f, 0.5f, 1.0f }, 3.0f, 3.0f);
 
-                Graphics::IconMap im;
-                //Graphics::initIconMap("todo: get icon map file", im, 10, 10);
+                g2 = {};
+                initGameObject(g2, {-2.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
+
+                g3 = {};
+                initGameObject(g3, { 2.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
+
+                g4 = {};
+                initGameObject(g4, { 7.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
+
+                Graphics::initIconMap("./assets/images/test.png", im1, 8, 8, 0);
+                Graphics::initIconMap("./assets/images/test2.png", im2, 8, 8, 0);
+                Graphics::initIconMap("./assets/images/blueberry.png", blueberry, 32, 32, 0);
+                Graphics::initIconMap("./assets/images/burger.png", burger, 32, 32, 0);
+                Graphics::initIconMap("./assets/images/pizzaMonster.png", pizzaMonster, 32, 32, 0);
+
+                g2.tex = Graphics::getTexture(blueberry, 0);
+                g3.tex = Graphics::getTexture(burger, 0);
+                g4.tex = Graphics::getTexture(pizzaMonster, 0);
 
                 s.objs.push_back(g1);
+                s.objs.push_back(g2);
+                s.objs.push_back(g3);
+                s.objs.push_back(g4);
 
                 for (int i = 0; i < s.objs.size(); i++)
                 {

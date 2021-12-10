@@ -13,8 +13,9 @@ namespace Pontilus
         {
             const char *filepath;
             GLuint texID;
-            GLint width, height;
-            GLint textureWidth, textureHeight;
+            int width, height;
+            int textureWidth, textureHeight;
+            int padding;
             bool beingUsed;
         };
 
@@ -24,10 +25,10 @@ namespace Pontilus
             float texCoords[8];
         };
 
-        void initIconMap(const char *filepath, IconMap &tex, int textureWidth, int textureHeight);
+        void initIconMap(const char *filepath, IconMap &tex, int textureWidth, int textureHeight, int padding);
 
-        void bindIconMap(Texture &t);
-        void unbindIconMap(Texture &t);
+        void bindIconMap(IconMap &t);
+        void unbindIconMap(IconMap &t);
 
         Texture getTexture(IconMap &im, int index);
     }

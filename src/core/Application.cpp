@@ -279,7 +279,7 @@ namespace Pontilus
                 keyIsPressed0 = true;
                 if (!(keyIsPressed0 == keyIsPressed1))
                 {
-                    Graphics::printRData(pointLightPool, 4);
+                    Graphics::printRData(quadPool, 16);
                     keyIsPressed1 = keyIsPressed0 = true;
                 }
             }
