@@ -12,18 +12,18 @@ namespace MidiFi
 {
     namespace UI
     {
-        void initUIElement(UIElement &g, glm::vec3 pos, glm::vec4 color, float width, float height)
+        void UIElement::init(glm::vec3 pos, glm::vec4 color, float width, float height)
         {
-            g.pos = pos;
-            g.color = color;
-            g.width = width;
-            g.height = height;
+            this->pos = pos;
+            this->color = color;
+            this->width = width;
+            this->height = height;
         }
 
         using namespace Graphics; // fight me
-        void uiStateToRData(UIElement &g, rData &r, unsigned int rOffset)
+        void UIElement::toRData(rData &r, unsigned int rOffset)
         {
-            __pAssert(!(rOffset >= r.vertCount / 4), "Rend not big enough to hold game states!");
+            __pAssert(!(rOffset >= r.vertCount / 4), "rData not big enough to hold game states!");
 
             int stride = rOffset * getLayoutLen(r) * 4;
             for (int i = 0; i < 4; i++)
@@ -31,24 +31,24 @@ namespace MidiFi
                 glm::vec3 orientation;
                 switch (i)
                 {
-                    case 0: orientation = {1.0f * g.width, 1.0f * g.height, 0.0f}; break;
-                    case 1: orientation = {0.0f * g.width, 1.0f * g.height, 0.0f}; break;
-                    case 2: orientation = {0.0f * g.width, 0.0f * g.height, 0.0f}; break;
-                    case 3: orientation = {1.0f * g.width, 0.0f * g.height, 0.0f}; break;
+                    case 0: orientation = {1.0f * this->width, 1.0f * this->height, 0.0f}; break;
+                    case 1: orientation = {0.0f * this->width, 1.0f * this->height, 0.0f}; break;
+                    case 2: orientation = {0.0f * this->width, 0.0f * this->height, 0.0f}; break;
+                    case 3: orientation = {1.0f * this->width, 0.0f * this->height, 0.0f}; break;
                 }
 
                 off_len result = getAttribMetaData(r, PONT_POS);
                 if (result.second >= 3 * sizeof(float))
                 {
-                    g.pos += orientation - glm::vec3{g.width / 2, g.height / 2, 0.0f};
+                    this->pos += orientation - glm::vec3{this->width / 2, this->height / 2, 0.0f};
 
                     // TODO: just use memcpy, bonehead.
                     for (int j = 0; j < 3; j++)
                     {
-                        ((float *)((char *)r.data + result.first + stride))[j] = ((float *)&g.pos)[j];
+                        ((float *)((char *)r.data + result.first + stride))[j] = ((float *)&this->pos)[j];
                     }
 
-                    g.pos -= orientation - glm::vec3{g.width / 2, g.height / 2, 0.0f};
+                    this->pos -= orientation - glm::vec3{this->width / 2, this->height / 2, 0.0f};
                 }
                 
                 result = getAttribMetaData(r, PONT_COLOR);
@@ -56,7 +56,7 @@ namespace MidiFi
                 {
                     for (int j = 0; j < 4; j++)
                     {
-                        ((float *)((char *)r.data + result.first + stride))[j] = ((float *)&g.color)[j];
+                        ((float *)((char *)r.data + result.first + stride))[j] = ((float *)&this->color)[j];
                     }             
                 }
 
@@ -64,24 +64,24 @@ namespace MidiFi
                 
                 if (result.second >= 2 * sizeof(float))
                 {
-                    orientation.x /= g.width;
-                    orientation.y /= g.height;
+                    orientation.x /= this->width;
+                    orientation.y /= this->height;
                     for (int j = 0; j < 2; j++)
                     {
-                        ((float *)((char *)r.data + result.first + stride))[j] = g.tex.texCoords[j + i * 2];
+                        ((float *)((char *)r.data + result.first + stride))[j] = this->tex.texCoords[j + i * 2];
                     }
                 }
 
                 result = getAttribMetaData(r, PONT_TEXID);
                 if (result.second == 1 * sizeof(float)) // I'd be very confused if there was more than one texID.
                 {
-                    if (g.tex.source == nullptr)
+                    if (this->tex.source == nullptr)
                     {
                         *(float *)((char *)r.data + result.first + stride) = 0.0f;
                     }
                     else
                     {
-                        *(float *)((char *)r.data + result.first + stride) = g.tex.source->texID;
+                        *(float *)((char *)r.data + result.first + stride) = this->tex.source->texID;
                     }
                 }
                 stride += getLayoutLen(r);
@@ -90,19 +90,7 @@ namespace MidiFi
             r.isDirty = true;
         }
 
-        void uiStateToRData(std::vector<UIElement> gs, rData &r)
-        {
-            __pAssert(r.vertCount >= 4 * gs.size(), "rData not big enough to hold game states!");
-
-            int stride = 0;
-            for (UIElement g : gs)
-            {
-                uiStateToRData(g, r, stride);
-                stride += getLayoutLen(r) * 4;
-            }
-        }
-
-        void uiStateToRData(UIElement &g, rData &r, unsigned int rOffset, vProp property)
+        void UIElement::toRData(rData &r, unsigned int rOffset, vProp property)
         {
             int offset = rOffset * 4 * getLayoutLen(r);
             
@@ -113,10 +101,10 @@ namespace MidiFi
                 glm::vec3 orientation;
                 switch (i)
                 {
-                    case 0: orientation = {1.0f * g.width, 1.0f * g.height, 0.0f}; break;
-                    case 1: orientation = {0.0f * g.width, 1.0f * g.height, 0.0f}; break;
-                    case 2: orientation = {0.0f * g.width, 0.0f * g.height, 0.0f}; break;
-                    case 3: orientation = {1.0f * g.width, 0.0f * g.height, 0.0f}; break;
+                    case 0: orientation = {1.0f * this->width, 1.0f * this->height, 0.0f}; break;
+                    case 1: orientation = {0.0f * this->width, 1.0f * this->height, 0.0f}; break;
+                    case 2: orientation = {0.0f * this->width, 0.0f * this->height, 0.0f}; break;
+                    case 3: orientation = {1.0f * this->width, 0.0f * this->height, 0.0f}; break;
                 }
 
                 switch (property)
@@ -125,14 +113,14 @@ namespace MidiFi
                     {
                         if (result.second >= 3 * sizeof(float))
                         {
-                            g.pos += orientation - glm::vec3{g.width / 2, g.height / 2, 0.0f};
+                            this->pos += orientation - glm::vec3{this->width / 2, this->height / 2, 0.0f};
 
                             for (int j = 0; j < 3; j++)
                             {
-                                ((float *)((char *)r.data + result.first + offset))[j] = ((float *)&g.pos)[j];
+                                ((float *)((char *)r.data + result.first + offset))[j] = ((float *)&this->pos)[j];
                             }
 
-                            g.pos -= orientation - glm::vec3{g.width / 2, g.height / 2, 0.0f};
+                            this->pos -= orientation - glm::vec3{this->width / 2, this->height / 2, 0.0f};
                         }
                     } break;
                     case PONT_COLOR:
@@ -141,7 +129,7 @@ namespace MidiFi
                         {
                             for (int j = 0; j < 4; j++)
                             {
-                                ((float *)((char *)r.data + result.first + offset))[j] = ((float *)&g.color)[j];
+                                ((float *)((char *)r.data + result.first + offset))[j] = ((float *)&this->color)[j];
                             }
                         }
                     } break;
@@ -149,17 +137,17 @@ namespace MidiFi
                     {
                         if (result.second >= 2 * sizeof(float))
                         {
-                            orientation.x /= g.width;
-                            orientation.y /= g.height;
+                            orientation.x /= this->width;
+                            orientation.y /= this->height;
                             for (int j = 0; j < 2; j++)
                             {
-                                *(float *)((char *)r.data + result.first + offset) = g.tex.texCoords[j + i * 2];
+                                *(float *)((char *)r.data + result.first + offset) = this->tex.texCoords[j + i * 2];
                             }
                         }
                     } break;
                     case PONT_TEXID:
                     {
-                        __pMessage("Don't change the TexID of a gameObject!");
+                        __pMessage("Don't change the TexID!"); // at least not yet
                     }
                 }
 

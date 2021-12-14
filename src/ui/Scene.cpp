@@ -25,17 +25,13 @@ namespace MidiFi
         {
             []()
             {
-                g1 = {};
-                initUIElement(g1, {-7.5f, 0.0f, 0.0f }, { 0.0f, 0.1f, 0.5f, 1.0f }, 3.0f, 3.0f);
+                g1.init({-7.5f, 0.0f, 0.0f }, { 0.0f, 0.1f, 0.5f, 1.0f }, 3.0f, 3.0f);
 
-                g2 = {};
-                initUIElement(g2, {-2.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
+                g2.init({-2.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
 
-                g3 = {};
-                initUIElement(g3, { 2.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
+                g3.init({ 2.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
 
-                g4 = {};
-                initUIElement(g4, { 7.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
+                g4.init({ 7.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
 
                 Graphics::initIconMap("./assets/images/test.png", im1, 8, 8, 0);
                 Graphics::initIconMap("./assets/images/test2.png", im2, 8, 8, 0);
@@ -54,7 +50,7 @@ namespace MidiFi
 
                 for (int i = 0; i < s.objs.size(); i++)
                 {
-                    uiStateToRData(s.objs[i], quadPool, i);
+                    s.objs[i].toRData(quadPool, i);
                 }
             },
             [](double dt)
@@ -138,7 +134,7 @@ namespace MidiFi
                 }
 
                 /*
-                // update camera pos and move it accordingly
+                // move camera
                 camToPlayer = abs(Renderer::Camera::getPosition().x - g1.pos.x);
                 if (camToPlayer > 8.5f)
                 {
@@ -153,7 +149,7 @@ namespace MidiFi
                 }
                 */
 
-                uiStateToRData(g1, quadPool, 0, Graphics::PONT_POS);
+                g1.toRData(quadPool, 0, Graphics::PONT_POS);
             }
         };
 

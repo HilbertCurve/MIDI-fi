@@ -58,5 +58,5 @@ namespace MidiFi
 
     void loadFile(const char *filepath, File &fb, bool isBinary);
 
-    glm::vec2 screenToWorldCoords(glm::vec2 screenPos);
+    glm::vec3 screenToWorldCoords(glm::vec2 screenPos);
 }

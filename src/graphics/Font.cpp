@@ -1,7 +1,6 @@
 #include "graphics/Font.h"
 
 #include <stb/stb_truetype.h>
-#include <stb/stb_image_write.h>
 #include <string>
 
 #include "utils/Utils.h"
@@ -123,7 +122,8 @@ namespace MidiFi
         Glyph getGlyph(Font &f, const char c)
         {
             stbtt_aligned_quad q;
-            float dummyx = 0, dummyy = 0;
+            // i don't really NEED these too much; all positioning is handled by the camera
+            float dummyx = 0, dummyy = 0; 
             stbtt_GetBakedQuad(f.characters, 512, 512, c - 32, &dummyx, &dummyy, &q, true);
 
             float texcoords[] = 

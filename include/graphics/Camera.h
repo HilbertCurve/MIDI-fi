@@ -21,6 +21,7 @@ namespace MidiFi
                 // Vec3{pitch (x-axis), yaw (y-axis), roll (z-axis)}
                 glm::vec3 rotation = glm::vec3{0, 0, 0};
                 float fov = 90; // is this necessary? i'd like to implement it at some point.
+                float zoom = 10;
 
                 // these should NEVER be accessed directly (unless you know what you're doing)
                 glm::mat4 projection;
@@ -30,6 +31,8 @@ namespace MidiFi
             glm::mat4 &getProjection();
             glm::mat4 &getView();
             glm::vec3 &getPosition();
+            float getZoom();
+            void updateProjection();
 
             void move(float dx, float dy, float dz);
             void rotate(float dpitch, float dyaw);

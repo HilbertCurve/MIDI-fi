@@ -8,8 +8,6 @@
 #include <stb/stb_image.h>
 #define STB_TRUETYPE_IMPLEMENTATION
 #include <stb/stb_truetype.h>
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include <stb/stb_image_write.h>
 
 #include "core/Application.h"
 #include "core/InputListener.h"
@@ -192,11 +190,8 @@ namespace MidiFi
                                   {
                                       window.width = newWidth;
                                       window.height = newHeight;
-                                      glViewport(
-                                          (window.width  - resolution) / 2, 
-                                          (window.height - resolution) / 2, 
-                                          resolution, 
-                                          resolution);
+                                      glViewport(0, 0, window.width, window.height);
+                                      Renderer::Camera::updateProjection();
                                   });
         
         glfwSetCursorPosCallback(window.ptr, IO::mousePosCallback);
@@ -208,11 +203,7 @@ namespace MidiFi
         // make the window visible
         glfwShowWindow(window.ptr);
         
-        glViewport(
-            (window.width  - resolution) / 2, 
-            (window.height - resolution) / 2, 
-            resolution, 
-            resolution);
+        glViewport(0, 0, window.width, window.height);
         // transparency stuff
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
@@ -237,7 +228,7 @@ namespace MidiFi
         {
             t1 = glfwGetTime();
             
-            glClearColor(0.01f, 0.01f, 0.01f, 0.01f);
+            glClearColor(0.01f, 0.11f, 0.31f, 0.01f);
             
             // set default background
             glClear(GL_COLOR_BUFFER_BIT);
@@ -283,13 +274,15 @@ namespace MidiFi
                 keyIsPressed0 = true;
                 if (!(keyIsPressed0 == keyIsPressed1))
                 {
-                    Graphics::printRData(quadPool, 16);
+                    glm::vec3 pos = screenToWorldCoords(IO::mousePos());
+                    printf("(%f, %f), ", pos.x, pos.y);
+                    printf("(%f, %f)\n", window.scene->objs[0].pos.x, window.scene->objs[0].pos.x);
                     keyIsPressed1 = keyIsPressed0 = true;
                 }
             }
             else
             {
-                keyIsPressed1 = keyIsPressed1 = false;
+                keyIsPressed1 = false;
             }
            
             // render

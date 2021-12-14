@@ -1,5 +1,7 @@
 /* date = December 10th 2021 7:05 pm */
 
+#pragma once
+
 #include <GL/gl.h>
 #include <stb/stb_truetype.h>
 
@@ -21,6 +23,7 @@ namespace MidiFi
         {
             Font *parent;
             float *texCoords;
+            float width, height;
         };
 
         void initFont(Font &f, const char *filepath, unsigned int fontSize);
