@@ -1,11 +1,10 @@
 /* date = October 11th 2021 2:35 pm */
 
-#ifndef _PONTILUS_TEXTURE_H
-#define _PONTILUS_TEXTURE_H
+#pragma once
 
 #include <GL/gl.h>
 
-namespace Pontilus
+namespace MidiFi
 {
     namespace Graphics
     {
@@ -33,5 +32,3 @@ namespace Pontilus
         Texture getTexture(IconMap &im, int index);
     }
 }
-
-#endif

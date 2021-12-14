@@ -8,11 +8,11 @@
 #include "graphics/Primitive.h"
 #include "graphics/Texture.h"
 
-namespace Pontilus
+namespace MidiFi
 {
-    namespace Engine
+    namespace UI
     {
-        struct GameObject
+        struct UIElement
         {
             glm::vec3 pos;
             glm::vec4 color;
@@ -22,10 +22,10 @@ namespace Pontilus
             Graphics::Primitive prim = Graphics::Primitives::QUAD;
         };
 
-        void initGameObject(GameObject &g, glm::vec3 pos, glm::vec4 color, float width, float height);
+        void initUIElement(UIElement &g, glm::vec3 pos, glm::vec4 color, float width, float height);
 
-        void gameStateToRData(GameObject &s, Graphics::rData &r, unsigned int rOffset);
-        void gameStateToRData(std::vector<GameObject> gs, Graphics::rData &r, unsigned int rOffset);
-        void gameStateToRData(GameObject &s, Graphics::rData &r, unsigned int rOffset, Graphics::vProp property);
+        void uiStateToRData(UIElement &s, Graphics::rData &r, unsigned int rOffset);
+        void uiStateToRData(std::vector<UIElement> gs, Graphics::rData &r, unsigned int rOffset);
+        void uiStateToRData(UIElement &s, Graphics::rData &r, unsigned int rOffset, Graphics::vProp property);
     }
 }

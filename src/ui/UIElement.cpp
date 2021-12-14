@@ -8,11 +8,11 @@
 #include "graphics/rData.h"
 #include "utils/Utils.h"
 
-namespace Pontilus
+namespace MidiFi
 {
-    namespace Engine
+    namespace UI
     {
-        void initGameObject(GameObject &g, glm::vec3 pos, glm::vec4 color, float width, float height)
+        void initUIElement(UIElement &g, glm::vec3 pos, glm::vec4 color, float width, float height)
         {
             g.pos = pos;
             g.color = color;
@@ -21,7 +21,7 @@ namespace Pontilus
         }
 
         using namespace Graphics; // fight me
-        void gameStateToRData(GameObject &g, rData &r, unsigned int rOffset)
+        void uiStateToRData(UIElement &g, rData &r, unsigned int rOffset)
         {
             __pAssert(!(rOffset >= r.vertCount / 4), "Rend not big enough to hold game states!");
 
@@ -90,19 +90,19 @@ namespace Pontilus
             r.isDirty = true;
         }
 
-        void gameStateToRData(std::vector<GameObject> gs, rData &r)
+        void uiStateToRData(std::vector<UIElement> gs, rData &r)
         {
             __pAssert(r.vertCount >= 4 * gs.size(), "rData not big enough to hold game states!");
 
             int stride = 0;
-            for (GameObject g : gs)
+            for (UIElement g : gs)
             {
-                gameStateToRData(g, r, stride);
+                uiStateToRData(g, r, stride);
                 stride += getLayoutLen(r) * 4;
             }
         }
 
-        void gameStateToRData(GameObject &g, rData &r, unsigned int rOffset, vProp property)
+        void uiStateToRData(UIElement &g, rData &r, unsigned int rOffset, vProp property)
         {
             int offset = rOffset * 4 * getLayoutLen(r);
             

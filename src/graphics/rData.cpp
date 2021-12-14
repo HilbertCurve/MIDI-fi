@@ -9,7 +9,7 @@
 #include "graphics/Renderer.h"
 #include "utils/Utils.h"
 
-namespace Pontilus
+namespace MidiFi
 {
     namespace Graphics
     {

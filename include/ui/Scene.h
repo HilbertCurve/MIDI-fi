@@ -6,9 +6,9 @@
 
 #include "ui/UIElement.h"
 
-namespace Pontilus
+namespace MidiFi
 {
-    namespace Engine
+    namespace UI
     {
         typedef void (* _init)();
         typedef void (* _update)(double dt);
@@ -18,7 +18,7 @@ namespace Pontilus
             _init init;
             _update update; 
 
-            std::vector<GameObject> objs;
+            std::vector<UIElement> objs;
         };
 
         void init();

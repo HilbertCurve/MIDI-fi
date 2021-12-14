@@ -5,7 +5,11 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb/stb_image.h"
+#include <stb/stb_image.h>
+#define STB_TRUETYPE_IMPLEMENTATION
+#include <stb/stb_truetype.h>
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include <stb/stb_image_write.h>
 
 #include "core/Application.h"
 #include "core/InputListener.h"
@@ -15,9 +19,9 @@
 #include "graphics/Texture.h"
 #include "ui/Scene.h"
 
-namespace Pontilus
+namespace MidiFi
 {
-    static _PONTILUS_SETTINGS args = 0x0000;
+    static _MIDIFI_SETTINGS args = 0x0000;
 
     float resolution = 512;
 
@@ -125,7 +129,7 @@ namespace Pontilus
         }
     }
 
-    Window window{800, 600, "Test", nullptr, Engine::getScene()};
+    Window window{800, 600, "Test", nullptr, UI::getScene()};
     GLuint glProgramID;
     
     static void printError(int error, const char *description)
@@ -134,7 +138,7 @@ namespace Pontilus
         fputs("\n", stderr);
     }
 
-    _PONTILUS_SETTINGS *getArgs()
+    _MIDIFI_SETTINGS *getArgs()
     {
         return &args;
     }

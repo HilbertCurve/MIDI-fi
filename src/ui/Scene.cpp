@@ -8,14 +8,14 @@
 #include "graphics/Camera.h"
 #include "ui/UIElement.h"
 
-namespace Pontilus
+namespace MidiFi
 {
-    namespace Engine
+    namespace UI
     {
-        static GameObject g1;
-        static GameObject g2;
-        static GameObject g3;
-        static GameObject g4;
+        static UIElement g1;
+        static UIElement g2;
+        static UIElement g3;
+        static UIElement g4;
         static Graphics::IconMap im1;
         static Graphics::IconMap im2;
         static Graphics::IconMap blueberry;
@@ -26,16 +26,16 @@ namespace Pontilus
             []()
             {
                 g1 = {};
-                initGameObject(g1, {-7.5f, 0.0f, 0.0f }, { 0.0f, 0.1f, 0.5f, 1.0f }, 3.0f, 3.0f);
+                initUIElement(g1, {-7.5f, 0.0f, 0.0f }, { 0.0f, 0.1f, 0.5f, 1.0f }, 3.0f, 3.0f);
 
                 g2 = {};
-                initGameObject(g2, {-2.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
+                initUIElement(g2, {-2.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
 
                 g3 = {};
-                initGameObject(g3, { 2.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
+                initUIElement(g3, { 2.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
 
                 g4 = {};
-                initGameObject(g4, { 7.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
+                initUIElement(g4, { 7.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
 
                 Graphics::initIconMap("./assets/images/test.png", im1, 8, 8, 0);
                 Graphics::initIconMap("./assets/images/test2.png", im2, 8, 8, 0);
@@ -54,7 +54,7 @@ namespace Pontilus
 
                 for (int i = 0; i < s.objs.size(); i++)
                 {
-                    gameStateToRData(s.objs[i], quadPool, i);
+                    uiStateToRData(s.objs[i], quadPool, i);
                 }
             },
             [](double dt)
@@ -153,7 +153,7 @@ namespace Pontilus
                 }
                 */
 
-                gameStateToRData(g1, quadPool, 0, Graphics::PONT_POS);
+                uiStateToRData(g1, quadPool, 0, Graphics::PONT_POS);
             }
         };
 

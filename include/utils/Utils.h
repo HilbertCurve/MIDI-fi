@@ -1,12 +1,12 @@
 /* date = October 17th 2021 5:25 pm */
 
-#ifndef _PONTILUS_UTILS_H
-#define _PONTILUS_UTILS_H
+#pragma once
 
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>
 #include <glm/glm.hpp>
+#include <GL/gl.h>
 
 #define __pError(message, ...) \
 {\
@@ -33,7 +33,7 @@ if (!(x))\
     exit(-1);\
 }
 
-namespace Pontilus
+namespace MidiFi
 {
     typedef int8_t byte;
 
@@ -48,9 +48,15 @@ namespace Pontilus
         U second;
     };
 
-    void loadFile(const char *filepath, char *data);
+    struct File
+    {
+        unsigned int size;
+        
+        bool isBinary;
+        void *buffer;
+    };
+
+    void loadFile(const char *filepath, File &fb, bool isBinary);
 
     glm::vec2 screenToWorldCoords(glm::vec2 screenPos);
 }
-
-#endif // _PONTILUS_UTILS_H

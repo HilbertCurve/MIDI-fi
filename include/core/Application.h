@@ -1,16 +1,15 @@
 /* date = August 22nd 2021 10:47 am */
 
-#ifndef _PONTILUS_APPLICATION_H
-#define _PONTILUS_APPLICATION_H
+#pragma once
 
 #include <GLFW/glfw3.h>
 
 #include "graphics/rData.h"
 #include "ui/Scene.h"
 
-namespace Pontilus
+namespace MidiFi
 {
-    typedef short _PONTILUS_SETTINGS;
+    typedef short _MIDIFI_SETTINGS;
 
     extern Graphics::rData quadPool;
     extern Graphics::rData linePool;
@@ -26,7 +25,7 @@ namespace Pontilus
         int height;
         const char *title;
         GLFWwindow *ptr;
-        Engine::Scene *scene;
+        UI::Scene *scene;
     };
 
     extern Window window;
@@ -34,8 +33,6 @@ namespace Pontilus
     void init();
     void loop();
 
-    _PONTILUS_SETTINGS *getArgs();
+    _MIDIFI_SETTINGS *getArgs();
     bool debugMode();
 }
-
-#endif //_PONTILUS_APPLICATION_H

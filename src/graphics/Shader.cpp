@@ -14,7 +14,7 @@
 #include "utils/Utils.h"
 // TODO: safety functions: Application::init() must've been called before we do ANYTHING with shaders.
 
-namespace Pontilus
+namespace MidiFi
 {
     namespace Graphics
     {

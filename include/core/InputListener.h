@@ -1,7 +1,6 @@
 /* date = September 17th 2021 10:29 am */
 
-#ifndef _PONTILUS_INPUT_LISTENER_H
-#define _PONTILUS_INPUT_LISTENER_H
+#pragma once
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -10,7 +9,7 @@
 #define NUM_KEYS 350
 #define LEFTOVER_MEM 475
 
-namespace Pontilus
+namespace MidiFi
 {
     namespace IO
     {        
@@ -68,5 +67,3 @@ namespace Pontilus
         void keyPressedCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
     }
 }
-
-#endif

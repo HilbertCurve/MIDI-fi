@@ -6,7 +6,7 @@
 #include "core/Application.h"
 #include "stb/stb_image.h"
 
-namespace Pontilus
+namespace MidiFi
 {
     namespace Graphics
     {

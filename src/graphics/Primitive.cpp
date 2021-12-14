@@ -1,6 +1,6 @@
 #include "graphics/Primitive.h"
 
-namespace Pontilus
+namespace MidiFi
 {
     namespace Graphics
     {

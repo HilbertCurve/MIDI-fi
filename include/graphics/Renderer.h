@@ -6,7 +6,7 @@
 #include "graphics/rData.h"
 #include "graphics/Texture.h"
 
-namespace Pontilus
+namespace MidiFi
 {
     namespace Renderer
     {

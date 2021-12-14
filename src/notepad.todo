@@ -12,9 +12,13 @@ Renderer:
         (that's usually done in the loading screen anyways).
 
     Fonts:
-        [ ] Learn how to use stb_truetype
-        [ ] ...
+        [+] Font loading
+        [ ] Font rendering
+        [ ] Displayable text demo
     [ ] Put these changes into Pontilus engine
+
+    [ ] Make UI structure less... "gameObject"-y 
+    (single interface implemented by many classes)
 
 UI:
     [ ] Plan...

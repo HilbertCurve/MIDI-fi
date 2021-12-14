@@ -3,7 +3,7 @@
 #include "math.h"
 #include <glm/glm.hpp>
 
-namespace Pontilus
+namespace MidiFi
 {
     namespace Math
     {

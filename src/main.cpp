@@ -6,7 +6,7 @@ int main(int argc, char *args[])
 {
     if (argc > 0)
     {
-        Pontilus::_PONTILUS_SETTINGS *a = Pontilus::getArgs();
+        MidiFi::_MIDIFI_SETTINGS *a = MidiFi::getArgs();
         for (int i = 0; i < argc; i++)
         {
             if (strcmp(args[i], "debug") == 0)
@@ -16,8 +16,8 @@ int main(int argc, char *args[])
         }
     }
 
-    Pontilus::init();
-    Pontilus::loop();
+    MidiFi::init();
+    MidiFi::loop();
 
     return 0;
 }

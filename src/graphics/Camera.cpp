@@ -4,7 +4,7 @@
 #include "graphics/Camera.h"
 #include "core/Application.h"
 
-namespace Pontilus
+namespace MidiFi
 {
     namespace Renderer
     {

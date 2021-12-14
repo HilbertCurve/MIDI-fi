@@ -11,7 +11,7 @@
 #include "graphics/Primitive.h"
 #include "ui/UIElement.h"
 
-namespace Pontilus
+namespace MidiFi
 {
     namespace Renderer
     {
@@ -70,7 +70,7 @@ namespace Pontilus
 
         static void enableVertexAttribs(Graphics::rData &r)
         {
-            int propOffset = 0;
+            u_int64_t propOffset = 0;
             for (int i = 0; i < r.layoutCount; i++)
             {
                 int propertyLen = r.layout[i].count;

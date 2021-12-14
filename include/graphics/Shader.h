@@ -1,7 +1,6 @@
 /* date = August 28th 2021 5:09 pm */
 
-#ifndef _PONTILUS_SHADER_H
-#define _PONTILUS_SHADER_H
+#pragma once
 
 #include <vector>
 
@@ -11,7 +10,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-namespace Pontilus
+namespace MidiFi
 {
     namespace Graphics
     {
@@ -49,5 +48,3 @@ namespace Pontilus
 
     }
 }
-
-#endif //_PONTILUS_SHADER_H

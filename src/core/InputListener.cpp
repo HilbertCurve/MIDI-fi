@@ -4,7 +4,7 @@
 
 #include "core/InputListener.h"
 
-namespace Pontilus
+namespace MidiFi
 {
     namespace IO
     {

@@ -1,7 +1,6 @@
 //#pragma once
 
-#ifndef _PONTILUS_REND_H
-#define _PONTILUS_REND_H
+#pragma once
 
 #include <vector>
 
@@ -10,7 +9,7 @@
 #include "graphics/Shader.h"
 #include "utils/Utils.h"
 
-namespace Pontilus
+namespace MidiFi
 {
     namespace Graphics
     {
@@ -75,5 +74,3 @@ namespace Pontilus
         void *getAttribPointer(rData &r, vProp p);
     }
 }
-
-#endif // _PONTILUS_REND_H

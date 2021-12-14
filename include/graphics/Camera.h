@@ -1,12 +1,11 @@
 /* date = August 30th 2021 9:08 pm */
 
-#ifndef _PONTILUS_CAMERA_H
-#define _PONTILUS_CAMERA_H
+#pragma once
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-namespace Pontilus
+namespace MidiFi
 {
     namespace Renderer
     {
@@ -37,5 +36,3 @@ namespace Pontilus
         }
     }
 }
-
-#endif //_PONTILUS_CAMERA_H
