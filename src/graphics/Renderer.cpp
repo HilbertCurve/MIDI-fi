@@ -7,6 +7,7 @@
 #include "graphics/Shader.h"
 #include "graphics/Camera.h"
 #include "graphics/Texture.h"
+#include "graphics/Font.h"
 #include "graphics/rData.h"
 #include "graphics/Primitive.h"
 #include "ui/UIElement.h"
@@ -23,11 +24,7 @@ namespace MidiFi
         static Graphics::rData *currentRData;
         static Graphics::Primitive currentMode = Graphics::Primitives::QUAD;
           
-        static const GLint texSlots[] = {1, 2, 3, 4, 5, 6, 7, 8};
-        static Graphics::Texture *textures[8] = 
-        {
-            {}, {}, {}, {}, {}, {}, {}, {}
-        };
+        static const GLint texSlots[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
         
         Graphics::Shader gameShader;
         Graphics::Shader postShader;
@@ -127,7 +124,7 @@ namespace MidiFi
             // default shader uniforms
             Graphics::uploadMat4(gameShader, "uProjection", Camera::getProjection());
             Graphics::uploadMat4(gameShader, "uView", Camera::getView());
-            Graphics::uploadIntArr(gameShader, "uTextures", texSlots, 8);
+            Graphics::uploadIntArr(gameShader, "uTextures", texSlots, 16);
             Graphics::uploadFloat(gameShader, "uTime", (float) glfwGetTime());
 
             for (int i = 0; i < 8; i++)
@@ -136,6 +133,14 @@ namespace MidiFi
 
                glActiveTexture(GL_TEXTURE0 + i + 1);
                Graphics::bindIconMap(*iconPool[i]);
+            }
+
+            for (int i = 0; i < 8; i++)
+            {
+                if (fontPool[i] == nullptr) continue;
+
+                glActiveTexture(GL_TEXTURE0 + i + 9); // +9 because textures and fonts are consecutive 
+                Graphics::bindFont(*fontPool[i]);
             }
             
             glBindVertexArray(vaoID);
@@ -152,6 +157,14 @@ namespace MidiFi
                 
                 glActiveTexture(GL_TEXTURE0 + i + 1);
                 Graphics::unbindIconMap(*iconPool[i]);
+            }
+
+            for (int i = 0; i < 8; i++)
+            {
+                if (fontPool[i] == nullptr) continue;
+
+                glActiveTexture(GL_TEXTURE0 + i + 9);
+                Graphics::unbindFont(*fontPool[i]);
             }
 
             Graphics::detachShader(gameShader);

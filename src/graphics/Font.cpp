@@ -1,8 +1,9 @@
 #include "graphics/Font.h"
 
-#include <stb/stb_truetype.h>
 #include <string>
+#include <glm/glm.hpp>
 
+#include "core/Application.h"
 #include "utils/Utils.h"
 
 namespace MidiFi
@@ -11,6 +12,8 @@ namespace MidiFi
     {
         void initFont(Font &f, const char *fontname, unsigned int fontSize)
         {
+            f.texID = fontPoolStackPointer + 8;
+
             /* Load font (. ttf) file */
             long int size = 0;
             unsigned char *fontBuffer = NULL;
@@ -111,12 +114,27 @@ namespace MidiFi
             // at this point we can use bitmap as a gl texture
             glGenTextures(1, &(f.texID));
             glBindTexture(GL_TEXTURE_2D, f.texID);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, 512,512, 0, GL_ALPHA, GL_UNSIGNED_BYTE, bitmap);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, 512, 512, 0, GL_ALPHA, GL_UNSIGNED_BYTE, bitmap);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+            fontPool[fontPoolStackPointer] = &f;
+            fontPoolStackPointer++;
+
             free(fontBuffer);
             free(bitmap);
+        }
+
+        void bindFont(Font &f)
+        {
+            glBindTexture(GL_TEXTURE_2D, f.texID);
+            f.beingUsed = true;
+        }
+
+        void unbindFont(Font &f)
+        {
+            glBindTexture(GL_TEXTURE_2D, 0);
+            f.beingUsed = false;
         }
 
         Glyph getGlyph(Font &f, const char c)
@@ -134,7 +152,9 @@ namespace MidiFi
                 q.s1,q.t1
             };
 
-            return Glyph{&f, texcoords};
+            glm::vec2 widthAndHeight = screenToWorldCoords({q.x1, q.y1}) - screenToWorldCoords({q.x0, q.y0});
+
+            return Glyph{&f, texcoords, widthAndHeight.x, widthAndHeight.y};
         }
     }
 }

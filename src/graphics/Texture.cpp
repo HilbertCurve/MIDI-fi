@@ -3,6 +3,10 @@
 #include <math.h>
 #include <glm/glm.hpp>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb/stb_includes.h>
+#undef STB_IMAGE_IMPLEMENTATION
+
 #include "core/Application.h"
 #include "stb/stb_image.h"
 
@@ -10,12 +14,10 @@ namespace MidiFi
 {
     namespace Graphics
     {
-
         void initIconMap(const char *filepath, IconMap &im, int textureWidth, int textureHeight, int padding)
         {
-            static int id = 0;
             im.filepath = filepath;
-            im.texID = id;
+            im.texID = iconPoolStackPointer;
 
             glGenTextures(1, &(im.texID));
             glBindTexture(GL_TEXTURE_2D, im.texID);
@@ -67,8 +69,8 @@ namespace MidiFi
                 printf("texID: %d\n\n", im.texID);
             }
 
-            iconPool[id] = &im;
-            id++;
+            iconPool[iconPoolStackPointer] = &im;
+            iconPoolStackPointer++;
 
             im.textureWidth = textureWidth;
             im.textureHeight = textureHeight;

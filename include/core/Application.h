@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 
 #include "graphics/rData.h"
+#include "graphics/Font.h"
 #include "ui/Scene.h"
 
 namespace MidiFi
@@ -16,6 +17,9 @@ namespace MidiFi
     extern Graphics::rData fullWindowQuad;
     extern Graphics::rData pointLightPool;
     extern Graphics::IconMap *iconPool[8];
+    extern Graphics::Font *fontPool[8];
+    extern int iconPoolStackPointer;
+    extern int fontPoolStackPointer;
 
     extern float resolution;
 

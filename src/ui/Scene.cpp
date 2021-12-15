@@ -83,13 +83,14 @@ namespace MidiFi
                     if (!(keyIsPressed0 == keyIsPressed1))
                     {
                         velocity.y += 7.0f;
+                        printf("(%f, %f)\n", g2.pos.x, g2.pos.y);
                         keyIsPressed1 = keyIsPressed0 = true;
                     }
                     atRestY = false;
                 }
                 else
                 {
-                    keyIsPressed1 = keyIsPressed1 = false;
+                    keyIsPressed1 = keyIsPressed0 = false;
                 }
 
                 // side-to-side motion (right has precedence over left)

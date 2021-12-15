@@ -4,16 +4,13 @@
 #include <GL/gl.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb/stb_image.h>
-#define STB_TRUETYPE_IMPLEMENTATION
-#include <stb/stb_truetype.h>
 
 #include "core/Application.h"
 #include "core/InputListener.h"
 #include "graphics/Renderer.h"
 #include "graphics/Camera.h"
 #include "graphics/rData.h"
+#include "graphics/Font.h"
 #include "graphics/Texture.h"
 #include "ui/Scene.h"
 
@@ -111,6 +108,8 @@ namespace MidiFi
 
     // Texture pool:
     Graphics::IconMap *iconPool[8];
+    int iconPoolStackPointer = 0;
+
     static void initTexPool()
     {
         for (int i = 0; i < 8; i++)
@@ -124,6 +123,17 @@ namespace MidiFi
         for (int i = 0; i < 8; i++)
         {
             iconPool[i] = nullptr;
+        }
+    }
+
+    Graphics::Font *fontPool[8];
+    int fontPoolStackPointer = 0;
+
+    static void initFontPool()
+    {
+        for (int i = 0; i < 8; i++)
+        {
+            fontPool[i] = nullptr;
         }
     }
 

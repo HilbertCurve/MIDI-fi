@@ -38,11 +38,12 @@ namespace MidiFi
     using namespace glm;
     vec3 screenToWorldCoords(vec2 screenPos)
     {
-        vec3 v = {screenPos, 0.0};
+        vec4 v = {screenPos, 0.0f, 1.0f};
 
-        v -= vec3{window.width / 2, window.height / 2, 0.0f};
-        v /= vec3{window.width / 2, -window.height / 2, 1.0f};
-        v *= vec3{Renderer::Camera::getZoom(), Renderer::Camera::getZoom(), 1.0f};
+        v -= vec4{window.width / 2, window.height / 2, 0.0f, 0.0f};
+        v /= vec4{window.width / 2, -window.height / 2, 1.0f, 1.0f};
+        
+        v = inverse(Renderer::Camera::getView()) * inverse(Renderer::Camera::getProjection()) * v;
 
         return {v.x, v.y, v.z};
     }

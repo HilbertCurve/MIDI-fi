@@ -3,6 +3,8 @@
 #pragma once
 
 #include <GL/gl.h>
+
+#define STB_TRUETYPE_IMPLEMENTATION
 #include <stb/stb_truetype.h>
 
 namespace MidiFi
@@ -17,7 +19,9 @@ namespace MidiFi
             // metrics. used mainly by stb_truetype.h
             stbtt_fontinfo info;
             stbtt_bakedchar characters[96];
+
             GLuint texID;
+            bool beingUsed;
         };
         struct Glyph
         {
@@ -27,6 +31,8 @@ namespace MidiFi
         };
 
         void initFont(Font &f, const char *filepath, unsigned int fontSize);
+        void bindFont(Font &f);
+        void unbindFont(Font &f);
         Glyph getGlyph(Font &f, const char c);
     }
 }
