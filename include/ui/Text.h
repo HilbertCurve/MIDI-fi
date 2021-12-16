@@ -11,7 +11,7 @@ namespace MidiFi
 {
     namespace UI
     {
-        class Text : UIElement
+        class Text : public UIElement
         {
             public:
             std::string text;

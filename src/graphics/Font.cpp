@@ -3,6 +3,9 @@
 #include <string>
 #include <glm/glm.hpp>
 
+#define STB_TRUETYPE_IMPLEMENTATION
+#include <stb/stb_truetype.h>
+
 #include "core/Application.h"
 #include "utils/Utils.h"
 
@@ -15,30 +18,17 @@ namespace MidiFi
             f.texID = fontPoolStackPointer + 8;
 
             /* Load font (. ttf) file */
-            long int size = 0;
-            unsigned char *fontBuffer = NULL;
-
-            std::string filepath = "./assets/fonts/" + std::string(fontname);
-
-            FILE *fontFile = fopen(filepath.c_str(), "rb");
-            if (fontFile == NULL)
-            {
-                __pError("Can not open font file!\n");
-            }
-            fseek(fontFile, 0, SEEK_END); /* Set the file pointer to the end of the file and offset 0 byte based on the end of the file */
-            size = ftell(fontFile);       /* Get the file size (end of file - head of file, in bytes) */
-            fseek(fontFile, 0, SEEK_SET); /* Reset the file pointer to the file header */
-
-            fontBuffer = (unsigned char *)calloc(size, sizeof(unsigned char));
-            fread(fontBuffer, size, 1, fontFile);
-            fclose(fontFile);
+            File fontFile;
+            loadFile(fontname, fontFile, true);
 
             /* Initialize font */
             stbtt_fontinfo info;
-            if (!stbtt_InitFont(&info, fontBuffer, 0))
+            if (!stbtt_InitFont(&info, (unsigned char *) fontFile.buffer, 0))
             {
                 printf("stb init font failed\n");
             }
+
+            f.info = &info;
 
             /* create a bitmap */
             int bitmap_w = 512; /* Width of bitmap */
@@ -74,7 +64,7 @@ namespace MidiFi
             /* Cyclic loading of each character in word */
             //for (int i = 33; i < 126; ++i)
             //{
-                // this works, but I'm gonna use baked fonts for now
+            // this works, but I'm gonna use baked fonts for now
 
             //     /*
             //      * Get the measurement in the horizontal direction
@@ -105,7 +95,10 @@ namespace MidiFi
             //     x += roundf(advanceWidth * scale);
 
             //}
-            stbtt_BakeFontBitmap(fontBuffer, 0, scale, bitmap, 512, 512, 33, 126 - 33, f.characters);
+            stbtt_BakeFontBitmap((unsigned char *) fontFile.buffer, 0, scale, bitmap,
+                                 512, 512, 33, 126 - 33,
+                                 (stbtt_bakedchar *)(&f.characters));
+                                 // it's ugly, but required due to #include issues
 
             /* Save the bitmap data to the 1-channel png image */
             // std::string fontpath = "assets/fonts/bin/" + std::string(fontname).substr(0, std::string(fontname).length() - 4) + ".png";
@@ -121,7 +114,7 @@ namespace MidiFi
             fontPool[fontPoolStackPointer] = &f;
             fontPoolStackPointer++;
 
-            free(fontBuffer);
+            freeFile(fontFile);
             free(bitmap);
         }
 
@@ -141,16 +134,15 @@ namespace MidiFi
         {
             stbtt_aligned_quad q;
             // i don't really NEED these too much; all positioning is handled by the camera
-            float dummyx = 0, dummyy = 0; 
-            stbtt_GetBakedQuad(f.characters, 512, 512, c - 32, &dummyx, &dummyy, &q, true);
+            float dummyx = 0, dummyy = 0;
+            stbtt_GetBakedQuad((stbtt_bakedchar *)(&f.characters), 512, 512, c - 32, &dummyx, &dummyy, &q, true);
 
-            float texcoords[] = 
-            {
-                q.s1,q.t0,
-                q.s0,q.t0,
-                q.s0,q.t1,
-                q.s1,q.t1
-            };
+            float texcoords[] =
+                {
+                    q.s1, q.t0,
+                    q.s0, q.t0,
+                    q.s0, q.t1,
+                    q.s1, q.t1};
 
             glm::vec2 widthAndHeight = screenToWorldCoords({q.x1, q.y1}) - screenToWorldCoords({q.x0, q.y0});
 

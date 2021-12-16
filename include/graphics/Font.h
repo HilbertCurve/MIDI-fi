@@ -4,9 +4,6 @@
 
 #include <GL/gl.h>
 
-#define STB_TRUETYPE_IMPLEMENTATION
-#include <stb/stb_truetype.h>
-
 namespace MidiFi
 {
     namespace Graphics
@@ -17,8 +14,8 @@ namespace MidiFi
             int fontSize;
             // this is for finding kern info, advance, and other font
             // metrics. used mainly by stb_truetype.h
-            stbtt_fontinfo info;
-            stbtt_bakedchar characters[96];
+            void *info;
+            void *characters[96];
 
             GLuint texID;
             bool beingUsed;

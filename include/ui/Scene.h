@@ -18,7 +18,7 @@ namespace MidiFi
             _init init;
             _update update; 
 
-            std::vector<UIElement> objs;
+            std::vector<UIElement *> objs = std::vector<UIElement *>();
         };
 
         void init();

@@ -9,30 +9,36 @@
 
 namespace MidiFi
 {
-    void loadFile(const char *filepath, File &fb, bool isBinary)
+    void loadFile(const char *filepath, File &f, bool isBinary)
     {
-        fb.isBinary = isBinary;
+        f.isBinary = isBinary;
 
-        FILE *f;
+        FILE *file;
 
         if (isBinary)
         {
-            f = fopen(filepath, "rb");
+            file = fopen(filepath, "rb");
         }
         else
         {
-            f = fopen(filepath, "r");
+            file = fopen(filepath, "r");
         }
 
-        fseek(f, 0, SEEK_END);
-        fb.size = ftell(f);
-        fseek(f, 0, SEEK_SET);
+        fseek(file, 0, SEEK_END);
+        f.size = ftell(file);
+        fseek(file, 0, SEEK_SET);
 
-        fb.buffer = malloc(fb.size);
+        f.buffer = malloc(f.size);
 
-        fread(fb.buffer, fb.size, (size_t)1, f);
+        fread(f.buffer, f.size, (size_t)1, file);
 
-        fclose(f);
+        fclose(file);
+    }
+
+    void freeFile(File &f)
+    {
+        free(f.buffer);
+        f.size = 0;
     }
 
     using namespace glm;

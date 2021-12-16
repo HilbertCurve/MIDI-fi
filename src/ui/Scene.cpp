@@ -5,33 +5,39 @@
 #include "core/Application.h"
 #include "core/InputListener.h"
 #include "graphics/rData.h"
+#include "graphics/Font.h"
 #include "graphics/Camera.h"
 #include "ui/UIElement.h"
+#include "ui/Text.h"
 
 namespace MidiFi
 {
     namespace UI
     {
-        static UIElement g1;
-        static UIElement g2;
-        static UIElement g3;
-        static UIElement g4;
+        static UIElement *g1 = new UIElement();
+        static UIElement *g2 = new UIElement();
+        static UIElement *g3 = new UIElement();
+        static UIElement *g4 = new UIElement();
+        static Text t1;
         static Graphics::IconMap im1;
         static Graphics::IconMap im2;
         static Graphics::IconMap blueberry;
         static Graphics::IconMap burger;
         static Graphics::IconMap pizzaMonster;
-        static Scene s = 
+        static Graphics::Font jetBrainsMono;
+        static Scene s = {};
+
+        void init()
         {
-            []()
+            s.init = []()
             {
-                g1.init({-7.5f, 0.0f, 0.0f }, { 0.0f, 0.1f, 0.5f, 1.0f }, 3.0f, 3.0f);
+                g1->init({-7.5f, 0.0f, 0.0f }, { 0.0f, 0.1f, 0.5f, 1.0f }, 3.0f, 3.0f);
 
-                g2.init({-2.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
+                g2->init({-2.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
 
-                g3.init({ 2.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
+                g3->init({ 2.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
 
-                g4.init({ 7.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
+                g4->init({ 7.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
 
                 Graphics::initIconMap("./assets/images/test.png", im1, 8, 8, 0);
                 Graphics::initIconMap("./assets/images/test2.png", im2, 8, 8, 0);
@@ -39,22 +45,29 @@ namespace MidiFi
                 Graphics::initIconMap("./assets/images/burger.png", burger, 32, 32, 0);
                 Graphics::initIconMap("./assets/images/pizzaMonster.png", pizzaMonster, 32, 32, 0);
 
-                g2.tex = Graphics::getTexture(blueberry, 0);
-                g3.tex = Graphics::getTexture(burger, 0);
-                g4.tex = Graphics::getTexture(pizzaMonster, 0);
+                Graphics::initFont(jetBrainsMono, "./assets/fonts/JetBrainsMono-Medium.ttf", 32);
 
-                s.objs.push_back(g1);
-                s.objs.push_back(g2);
-                s.objs.push_back(g3);
-                s.objs.push_back(g4);
+                g2->tex = Graphics::getTexture(blueberry, 0);
+                g3->tex = Graphics::getTexture(burger, 0);
+                g4->tex = Graphics::getTexture(pizzaMonster, 0);
+
+                t1.init({-10, -10, 0}, {1.0, 1.0, 1.0, 1.0}, 100, 100, "This is a test.", jetBrainsMono);
+
+                //s.objs.push_back(g1);
+                //s.objs.push_back(g2);
+                //s.objs.push_back(g3);
+                //s.objs.push_back(g4);
+                //s.objs.push_back(t1);
 
                 for (int i = 0; i < s.objs.size(); i++)
                 {
-                    s.objs[i].toRData(quadPool, i);
+                    s.objs[i]->toRData(quadPool, i);
                 }
-            },
-            [](double dt)
+            };
+
+            s.update = [](double dt)
             {
+                /*
                 static bool keyIsPressed0 = false;
                 static bool keyIsPressed1 = false;
                 static bool atRestY = false;
@@ -150,12 +163,9 @@ namespace MidiFi
                 }
                 */
 
-                g1.toRData(quadPool, 0, Graphics::PONT_POS);
-            }
-        };
+                //g1.toRData(quadPool, 0, Graphics::PONT_POS);
+            };
 
-        void init()
-        {
             s.init();
         }
 

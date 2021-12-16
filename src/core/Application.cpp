@@ -218,7 +218,7 @@ namespace MidiFi
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
         
-        window.scene->init();
+        UI::init();
 
         Renderer::start();
         
@@ -286,7 +286,7 @@ namespace MidiFi
                 {
                     glm::vec3 pos = screenToWorldCoords(IO::mousePos());
                     printf("(%f, %f), ", pos.x, pos.y);
-                    printf("(%f, %f)\n", window.scene->objs[0].pos.x, window.scene->objs[0].pos.x);
+                    printf("(%f, %f)\n", window.scene->objs[0]->pos.x, window.scene->objs[0]->pos.x);
                     keyIsPressed1 = keyIsPressed0 = true;
                 }
             }

@@ -12,9 +12,10 @@ namespace MidiFi
 {
     namespace UI
     {
-        class UIElement
+        struct UIElement
         {
-            public:
+            UIElement() = default;
+
             glm::vec3 pos;
             glm::vec4 color;
             float width, height;
@@ -24,8 +25,6 @@ namespace MidiFi
             void init(glm::vec3 pos, glm::vec4 color, float width, float height);
             void toRData(Graphics::rData &r, unsigned int rOffset);
             void toRData(Graphics::rData &r, unsigned int rOffset, Graphics::vProp property);
-
-            private:
             Graphics::Primitive prim = Graphics::Primitives::QUAD;
         };
 
