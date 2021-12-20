@@ -17,7 +17,7 @@ namespace MidiFi
             std::string text;
             Graphics::Font *font;
             void init(glm::vec3 pos, glm::vec4 color, float width, float height, std::string text, Graphics::Font &f);
-            void toRData(Graphics::rData &r, unsigned int rOffset);
+            int toRData(Graphics::rData &r, unsigned int rOffset);
         };
     }
 }

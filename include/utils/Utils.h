@@ -17,6 +17,14 @@
     exit(-1);\
 }
 
+#define __pWarning(message, ...) \
+{\
+    fprintf(stdout, "\x1B[01m\x1B[31mWARNING: Warning at file %s, line %d:\x1B[0m ",\
+            __FILE__, __LINE__);\
+    fprintf(stdout, message __VA_OPT__(,) __VA_ARGS__);\
+    fprintf(stdout, "\n");\
+}
+
 #define __pMessage(message, ...) \
 {\
     printf("\x1B[01m\x1B[32mINFO: Message at file %s, line %d:\x1B[0m ",\

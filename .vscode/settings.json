@@ -20,6 +20,11 @@
         "stdexcept": "cpp",
         "tuple": "cpp",
         "type_traits": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "unordered_map": "cpp",
+        "optional": "cpp",
+        "functional": "cpp",
+        "new": "cpp",
+        "exception": "cpp"
     }
 }

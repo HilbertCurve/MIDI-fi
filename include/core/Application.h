@@ -29,10 +29,12 @@ namespace MidiFi
         int height;
         const char *title;
         GLFWwindow *ptr;
-        UI::Scene *scene;
     };
 
     extern Window window;
+    
+    UI::Scene *getCurrentScene();
+    void setCurrentScene(UI::Scene &s);
 
     void init();
     void loop();

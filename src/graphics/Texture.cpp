@@ -4,11 +4,9 @@
 #include <glm/glm.hpp>
 
 #define STB_IMAGE_IMPLEMENTATION
-#include <stb/stb_includes.h>
-#undef STB_IMAGE_IMPLEMENTATION
+#include <stb/stb_image.h>
 
 #include "core/Application.h"
-#include "stb/stb_image.h"
 
 namespace MidiFi
 {

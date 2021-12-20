@@ -13,6 +13,7 @@
 #include "graphics/Font.h"
 #include "graphics/Texture.h"
 #include "ui/Scene.h"
+#include "ui/UIElement.h"
 
 namespace MidiFi
 {
@@ -137,7 +138,24 @@ namespace MidiFi
         }
     }
 
-    Window window{800, 600, "Test", nullptr, UI::getScene()};
+    // i'd prefer to keep this private; there are some quirks with getting and setting this variable i'd rather automate
+    static UI::Scene *currentScene;
+
+    UI::Scene *getCurrentScene()
+    {
+        return currentScene;
+    }
+
+    void setCurrentScene(UI::Scene &s)
+    {
+        if (currentScene != nullptr)
+            currentScene->clean();
+        
+        currentScene = &s;
+        currentScene->init();
+    }
+
+    Window window{800, 600, "Test", nullptr};
     GLuint glProgramID;
     
     static void printError(int error, const char *description)
@@ -218,7 +236,7 @@ namespace MidiFi
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
         
-        UI::init();
+        setCurrentScene(UI::Scenes::debug);
 
         Renderer::start();
         
@@ -248,7 +266,7 @@ namespace MidiFi
 
             if (timeAccum >= 0.016f)
             {
-                window.scene->update(0.016f);
+                //getCurrentScene()->update(0.016f);
                 timeAccum = 0;
             }
             /*
@@ -284,9 +302,8 @@ namespace MidiFi
                 keyIsPressed0 = true;
                 if (!(keyIsPressed0 == keyIsPressed1))
                 {
-                    glm::vec3 pos = screenToWorldCoords(IO::mousePos());
-                    printf("(%f, %f), ", pos.x, pos.y);
-                    printf("(%f, %f)\n", window.scene->objs[0]->pos.x, window.scene->objs[0]->pos.x);
+                    Graphics::printRData(quadPool, 20);
+                    // don't do this; prints and whatnot should be handled in the scene, not in this loop
                     keyIsPressed1 = keyIsPressed0 = true;
                 }
             }
@@ -321,8 +338,8 @@ namespace MidiFi
         cleanPointLights();
         cleanTexPool();
         
-        glLinkProgram(0);
         glfwDestroyWindow(window.ptr);
+        glLinkProgram(0);
         glfwTerminate();
     }
 }

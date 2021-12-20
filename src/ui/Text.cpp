@@ -19,7 +19,7 @@ namespace MidiFi
             this->font = &f;
         }
 
-        void Text::toRData(Graphics::rData &r, unsigned int rOffset)
+        int Text::toRData(Graphics::rData &r, unsigned int rOffset)
         {
             using namespace MidiFi::Graphics;
 
@@ -31,19 +31,13 @@ namespace MidiFi
             for (char c : this->text)
             {
                 Glyph g = getGlyph(*this->font, c);
-                /*
-                
-                for (int i = 0; i < 4; i++)
-                {
-
-                }
-                */
                 
                 glm::vec3 posAccumulate = {0.0f, 0.0f, 0.0f};
 
                 for (int i = 0; i < 4; i++)
                 {
                     glm::vec3 orientation;
+
                     switch (i)
                     {
                         case 0: orientation = {1.0f * g.width, 1.0f * g.height, 0.0f}; break;
@@ -96,12 +90,12 @@ namespace MidiFi
                         }
                         else
                         {
-                            *(float *)((char *)r.data + result.first + stride) = g.parent->texID;
+                            *(float *)((char *)r.data + result.first + stride) = this->font->texID;
                         }
                     }
                     stride += getLayoutLen(r);
 
-                    posAccumulate += g.width;
+                    posAccumulate.x += g.width;
 
                     // if align is to the left
                     if (posAccumulate.x > this->width)
@@ -111,6 +105,8 @@ namespace MidiFi
                     }
                 }
             }
+
+            return stride / (4 * getLayoutLen(r));
         }
     }
 }

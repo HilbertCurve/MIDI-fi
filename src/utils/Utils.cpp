@@ -30,7 +30,7 @@ namespace MidiFi
 
         f.buffer = malloc(f.size);
 
-        fread(f.buffer, f.size, (size_t)1, file);
+        fread(f.buffer, f.size, (size_t)(sizeof(char)), file);
 
         fclose(file);
     }

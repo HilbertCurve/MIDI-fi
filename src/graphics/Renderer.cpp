@@ -39,13 +39,16 @@ namespace MidiFi
         {
             currentMode = p;
 
-            int numElements = 10;
+            int numElements = 0;
 
             switch (p.renderMode)
             {
                 case PONT_GAME:
                 {
-                    numElements = window.scene->objs.size();
+                    if (getCurrentScene() != nullptr)
+                    {
+                        numElements = getCurrentScene()->objs.size();
+                    }
                 } break;
                 case PONT_DEBUG:
                 {
@@ -90,8 +93,6 @@ namespace MidiFi
 
         void start()
         {
-            int numObjects = window.scene->objs.size();
-
             glGenBuffers(1, &vboID);
             glGenBuffers(1, &postvboID);
 
@@ -118,7 +119,12 @@ namespace MidiFi
             glBindBuffer(GL_ARRAY_BUFFER, vboID);
             glBufferData(GL_ARRAY_BUFFER, getLayoutLen(*currentRData) * currentRData->vertCount, currentRData->data, GL_DYNAMIC_DRAW);
 
-            int numObjects = window.scene->objs.size();
+            int numObjects = 0;
+
+            if (getCurrentScene() != nullptr)
+            {
+                numObjects = getCurrentScene()->objs.size();
+            }
 
             Graphics::attachShader(gameShader);
             // default shader uniforms

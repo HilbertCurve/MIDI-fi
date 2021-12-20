@@ -21,7 +21,7 @@ namespace MidiFi
         }
 
         using namespace Graphics; // fight me
-        void UIElement::toRData(rData &r, unsigned int rOffset)
+        int UIElement::toRData(rData &r, unsigned int rOffset)
         {
             __pAssert(!(rOffset >= r.vertCount / 4), "rData not big enough to hold game states!");
 
@@ -88,6 +88,8 @@ namespace MidiFi
             }
 
             r.isDirty = true;
+            
+            return stride / (4 * getLayoutLen(r));
         }
 
         void UIElement::toRData(rData &r, unsigned int rOffset, vProp property)
