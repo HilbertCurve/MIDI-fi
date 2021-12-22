@@ -13,7 +13,16 @@ namespace MidiFi
         struct Font
         {
             const char *filepath;
-            int fontSize;
+            union
+            {
+                int width;
+                int fontSize;
+            };
+            // is this bloat? i know i can just use stbtt_GetFontVMetrics, but this could be faster...
+            int ascent;
+            int descent;
+            int lineGap;
+
             // this is for finding kern info, advance, and other font
             // metrics. used mainly by stb_truetype.h
             stbtt_fontinfo info;
@@ -25,7 +34,13 @@ namespace MidiFi
         struct Glyph
         {
             Font *parent;
-            float *texCoords;
+            struct 
+            {
+                float a0, a1;
+                float a2, a3;
+                float a4, a5;
+                float a6, a7;
+            } texCoords;
             float width, height;
         };
 

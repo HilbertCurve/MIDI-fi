@@ -256,7 +256,7 @@ namespace MidiFi
         {
             t1 = glfwGetTime();
             
-            glClearColor(0.01f, 0.11f, 0.31f, 0.01f);
+            glClearColor(0.0f, 0.1f, 0.5f, 1.0f);
             
             // set default background
             glClear(GL_COLOR_BUFFER_BIT);

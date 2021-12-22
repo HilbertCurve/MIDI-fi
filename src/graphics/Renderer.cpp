@@ -47,7 +47,7 @@ namespace MidiFi
                 {
                     if (getCurrentScene() != nullptr)
                     {
-                        numElements = getCurrentScene()->objs.size();
+                        numElements = getCurrentScene()->numQuads;
                     }
                 } break;
                 case PONT_DEBUG:
@@ -123,7 +123,7 @@ namespace MidiFi
 
             if (getCurrentScene() != nullptr)
             {
-                numObjects = getCurrentScene()->objs.size();
+                numObjects = getCurrentScene()->numQuads;
             }
 
             Graphics::attachShader(gameShader);
@@ -135,17 +135,17 @@ namespace MidiFi
 
             for (int i = 0; i < 8; i++)
             {
-               if (iconPool[i] == nullptr) continue;
+               if (iconPool[i] == nullptr || iconPool[i]->texID == 0.0f) continue;
 
-               glActiveTexture(GL_TEXTURE0 + i + 1);
+               glActiveTexture(GL_TEXTURE0 + iconPool[i]->texID);
                Graphics::bindIconMap(*iconPool[i]);
             }
 
             for (int i = 0; i < 8; i++)
             {
-                if (fontPool[i] == nullptr) continue;
+                if (fontPool[i] == nullptr || fontPool[i]->texID == 0.0f) continue;
 
-                glActiveTexture(GL_TEXTURE0 + i + 9); // +9 because textures and fonts are consecutive 
+                glActiveTexture(GL_TEXTURE0 + fontPool[i]->texID);
                 Graphics::bindFont(*fontPool[i]);
             }
             
@@ -159,17 +159,17 @@ namespace MidiFi
 
             for (int i = 0; i < 8; i++)
             {
-                if (iconPool[i] == nullptr) continue;
-                
-                glActiveTexture(GL_TEXTURE0 + i + 1);
-                Graphics::unbindIconMap(*iconPool[i]);
+               if (iconPool[i] == nullptr || iconPool[i]->texID == 0.0f) continue;
+
+               glActiveTexture(GL_TEXTURE0 + iconPool[i]->texID);
+               Graphics::unbindIconMap(*iconPool[i]);
             }
 
             for (int i = 0; i < 8; i++)
             {
-                if (fontPool[i] == nullptr) continue;
+                if (fontPool[i] == nullptr || fontPool[i]->texID == 0.0f) continue;
 
-                glActiveTexture(GL_TEXTURE0 + i + 9);
+                glActiveTexture(GL_TEXTURE0 + fontPool[i]->texID);
                 Graphics::unbindFont(*fontPool[i]);
             }
 

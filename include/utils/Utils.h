@@ -68,4 +68,5 @@ namespace MidiFi
     void freeFile(File &f);
 
     glm::vec3 screenToWorldCoords(glm::vec2 screenPos);
+    glm::vec3 screenToWorldSize(glm::vec2 screenSize);
 }

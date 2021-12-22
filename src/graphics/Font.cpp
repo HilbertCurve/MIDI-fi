@@ -7,6 +7,10 @@
 #include <stb/stb_truetype.h>
 #undef STB_TRUETYPE_IMPLEMENTATION
 
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include <stb/stb_image_write.h>
+#undef STB_IMAGE_WRITE_IMPLEMENTATION
+
 #include "core/Application.h"
 #include "utils/Utils.h"
 
@@ -27,7 +31,6 @@ namespace MidiFi
             if (!stbtt_InitFont(&info, (unsigned char *) fontFile.buffer, 0))
             {
                 printf("stb init font failed\n");
-                return;
             }
 
             f.info = info;
@@ -48,19 +51,11 @@ namespace MidiFi
              * lineGap: The distance between two fonts;
              * The line spacing is: ascent - descent + lineGap.
              */
-            int ascent = 0;
-            int descent = 0;
-            int lineGap = 0;
-            stbtt_GetFontVMetrics(&info, &ascent, &descent, &lineGap);
+            stbtt_GetFontVMetrics(&info, &f.ascent, &f.descent, &f.lineGap);
 
             /* Adjust word height according to zoom */
-            ascent = roundf(ascent * scale);
-            descent = roundf(descent * scale);
-
-            int x = 0;
-            int y = 0;
-            int advanceWidth = 0;
-            int leftSideBearing = 0;
+            f.ascent = roundf(f.ascent * scale);
+            f.descent = roundf(f.descent * scale);
 
             /* Cyclic loading of each character in word */
             //for (int i = 33; i < 126; ++i)
@@ -97,20 +92,28 @@ namespace MidiFi
 
             //}
             
-            stbtt_BakeFontBitmap((unsigned char *) fontFile.buffer, 0, scale, bitmap,
-                                 512, 512, 33, 126 - 34,
+            stbtt_BakeFontBitmap((unsigned char *) fontFile.buffer, 0, 32.0, bitmap,
+                                 512, 512, 32, 96,
                                  f.characters);
-                                 // it's ugly, but required due to #include issues
-                                 
 
-            /* Save the bitmap data to the 1-channel png image */
+            ///* Save the bitmap data to the 1-channel png image */
             // std::string fontpath = "assets/fonts/bin/" + std::string(fontname).substr(0, std::string(fontname).length() - 4) + ".png";
-            // stbi_write_png(fontpath.c_str(), bitmap_w, bitmap_h, 1, bitmap, bitmap_w);
+            // stbi_write_png("assets/fonts/bin/test.png", 512, 512, 1, bitmap, 512);
 
             // at this point we can use bitmap as a gl texture
+            unsigned int id = f.texID;
             glGenTextures(1, &(f.texID));
             glBindTexture(GL_TEXTURE_2D, f.texID);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, 512, 512, 0, GL_ALPHA, GL_UNSIGNED_BYTE, bitmap);
+
+            // GL_RED here refers to the fact that there's only one channel (the first one)
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, 512, 512, 0, GL_RED, GL_UNSIGNED_BYTE, bitmap);
+
+            // a swizzle maps some channels of a texture to different ones (in this case, we turn our
+            // texture from a red-intensity to an rgba-intensity.) this lets the shader/vertex data
+            // choose the color of the text.
+            GLint swizzleMask[] = {GL_RED, GL_RED, GL_RED, GL_RED};
+            glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_RGBA, swizzleMask);
+
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
@@ -135,6 +138,10 @@ namespace MidiFi
 
         Glyph getGlyph(Font &f, const char c)
         {
+            Glyph ret;
+
+            ret.parent = &f;
+
             stbtt_aligned_quad q;
             // i don't really NEED these too much; all positioning is handled by the camera
             float dummyx = 0, dummyy = 0;
@@ -142,14 +149,22 @@ namespace MidiFi
 
             float texcoords[] =
                 {
-                    q.s1, q.t0,
-                    q.s0, q.t0,
+                    q.s1, q.t1,
                     q.s0, q.t1,
-                    q.s1, q.t1};
+                    q.s0, q.t0,
+                    q.s1, q.t0
+                };
+            
+            memcpy(&ret.texCoords, texcoords, 8 * sizeof(float));
 
-            glm::vec2 widthAndHeight = screenToWorldCoords({q.x1, q.y1}) - screenToWorldCoords({q.x0, q.y0});
+            glm::vec2 widthAndHeight = c != ' ' ? 
+                screenToWorldSize(glm::vec2{q.x1 - q.x0, q.y1 - q.y0}) : 
+                screenToWorldSize(glm::vec2{f.fontSize, 0.0f});
 
-            return Glyph{&f, texcoords, widthAndHeight.x * 10, widthAndHeight.y * 10};
+            ret.width = widthAndHeight.x;
+            ret.height = widthAndHeight.y;
+
+            return ret;
         }
     }
 }

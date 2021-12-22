@@ -28,11 +28,12 @@ namespace MidiFi
             int stride = rOffset * getLayoutLen(r) * 4;
 
             // for each character in the text, add a default quad
+            glm::vec3 posAccumulate = {0.0f, 0.0f, 0.0f};
+            
             for (char c : this->text)
             {
                 Glyph g = getGlyph(*this->font, c);
                 
-                glm::vec3 posAccumulate = {0.0f, 0.0f, 0.0f};
 
                 for (int i = 0; i < 4; i++)
                 {
@@ -49,7 +50,8 @@ namespace MidiFi
                     off_len result = getAttribMetaData(r, PONT_POS);
                     if (result.second >= 3 * sizeof(float))
                     {
-                        this->pos += orientation - glm::vec3{g.width / 2, g.height / 2, 0.0f} + posAccumulate;
+                        // instead of position by bottom corner
+                        this->pos += orientation - glm::vec3{0.0f, g.height, 0.0f} + posAccumulate;
 
                         // TODO: just use memcpy, bonehead.
                         for (int j = 0; j < 3; j++)
@@ -57,7 +59,7 @@ namespace MidiFi
                             ((float *)((char *)r.data + result.first + stride))[j] = ((float *)&this->pos)[j];
                         }
 
-                        this->pos -= orientation - glm::vec3{g.width / 2, g.height / 2, 0.0f} - posAccumulate;
+                        this->pos -= orientation - glm::vec3{0.0f, g.height, 0.0f} + posAccumulate;
                     }
                     
                     result = getAttribMetaData(r, PONT_COLOR);
@@ -70,21 +72,18 @@ namespace MidiFi
                     }
 
                     result = getAttribMetaData(r, PONT_TEXCOORD);
-                    
                     if (result.second >= 2 * sizeof(float))
                     {
-                        orientation.x /= this->width;
-                        orientation.y /= this->height;
                         for (int j = 0; j < 2; j++)
                         {
-                            ((float *)((char *)r.data + result.first + stride))[j] = g.texCoords[i * 4 + j];
+                            ((float *)((char *)r.data + result.first + stride))[j] = ((float *)&g.texCoords)[i * 2 + j];
                         }
                     }
 
                     result = getAttribMetaData(r, PONT_TEXID);
                     if (result.second == 1 * sizeof(float)) // I'd be very confused if there was more than one texID.
                     {
-                        if (this->tex.source == nullptr)
+                        if (this->font == nullptr)
                         {
                             *(float *)((char *)r.data + result.first + stride) = 0.0f;
                         }
@@ -94,15 +93,16 @@ namespace MidiFi
                         }
                     }
                     stride += getLayoutLen(r);
+                }
 
-                    posAccumulate.x += g.width;
 
-                    // if align is to the left
-                    if (posAccumulate.x > this->width)
-                    {
-                        posAccumulate.x = 0;
-                        posAccumulate.y += g.parent->fontSize;
-                    }
+                posAccumulate.x += g.width;
+
+                // if align is to the left
+                if (posAccumulate.x > this->width)
+                {
+                    posAccumulate.x = 0;
+                    posAccumulate.y += screenToWorldSize(glm::vec2(0.0f, g.parent->ascent - g.parent->descent + g.parent->lineGap + g.parent->fontSize)).y;
                 }
             }
 

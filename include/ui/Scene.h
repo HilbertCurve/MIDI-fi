@@ -23,6 +23,8 @@ namespace MidiFi
             void toRData(Graphics::rData &r, unsigned int rOffset);
 
             std::vector<UIElement> objs = std::vector<UIElement>(0);
+
+            int numQuads = 0;
         };
 
         namespace Scenes
