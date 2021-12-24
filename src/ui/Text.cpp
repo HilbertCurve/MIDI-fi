@@ -51,7 +51,7 @@ namespace MidiFi
                     if (result.second >= 3 * sizeof(float))
                     {
                         // instead of position by bottom corner
-                        this->pos += orientation - glm::vec3{0.0f, g.height, 0.0f} + posAccumulate;
+                        this->pos += orientation - glm::vec3{0.0f, g.height, 0.0f} + posAccumulate + glm::vec3{0.0f, g.descent, 0.0f};
 
                         // TODO: just use memcpy, bonehead.
                         for (int j = 0; j < 3; j++)
@@ -59,7 +59,7 @@ namespace MidiFi
                             ((float *)((char *)r.data + result.first + stride))[j] = ((float *)&this->pos)[j];
                         }
 
-                        this->pos -= orientation - glm::vec3{0.0f, g.height, 0.0f} + posAccumulate;
+                        this->pos -= orientation - glm::vec3{0.0f, g.height, 0.0f} + posAccumulate + glm::vec3{0.0f, g.descent, 0.0f};
                     }
                     
                     result = getAttribMetaData(r, PONT_COLOR);
@@ -102,7 +102,7 @@ namespace MidiFi
                 if (posAccumulate.x > this->width)
                 {
                     posAccumulate.x = 0;
-                    posAccumulate.y += screenToWorldSize(glm::vec2(0.0f, g.parent->ascent - g.parent->descent + g.parent->lineGap + g.parent->fontSize)).y;
+                    posAccumulate.y += screenToWorldSize(glm::vec2(0.0f, g.parent->ascent - g.parent->descent + g.parent->lineGap)).y;
                 }
             }
 

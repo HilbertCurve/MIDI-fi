@@ -10,10 +10,21 @@ namespace MidiFi
 {
     namespace Graphics
     {
+        struct Font;
+
+        struct Glyph
+        {
+            Font *parent;
+            float texCoords[8];
+            float width, height, descent; // descent would be present in the char 'j'
+        };
+
         struct Font
         {
+            // it seems like a lot of fields in this struct are in the glyph struct...
+
             const char *filepath;
-            union
+            union // functionally they're the same
             {
                 int width;
                 int fontSize;
@@ -24,24 +35,12 @@ namespace MidiFi
             int lineGap;
 
             // this is for finding kern info, advance, and other font
-            // metrics. used mainly by stb_truetype.h
+            // metrics. 
             stbtt_fontinfo info;
-            stbtt_bakedchar characters[96];
+            Glyph glyphs[96];
 
             GLuint texID;
             bool beingUsed;
-        };
-        struct Glyph
-        {
-            Font *parent;
-            struct 
-            {
-                float a0, a1;
-                float a2, a3;
-                float a4, a5;
-                float a6, a7;
-            } texCoords;
-            float width, height;
         };
 
         void initFont(Font &f, const char *filepath, unsigned int fontSize);

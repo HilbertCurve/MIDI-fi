@@ -81,7 +81,7 @@ namespace MidiFi
                     }
                     else
                     {
-                        *(float *)((char *)r.data + result.first + stride) = this->tex.source->texID;
+                        *(float *)((char *)r.data + result.first + stride) = 6.0f;//this->tex.source->texID;
                     }
                 }
                 stride += getLayoutLen(r);

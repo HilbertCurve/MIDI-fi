@@ -35,7 +35,7 @@ namespace MidiFi
                     static Graphics::IconMap pizzaMonster;
                     static Graphics::Font jetBrainsMono;
                     static Scene s = {};
-                    g1.init({-7.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
+                    g1.init({-7.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 30.0f, 30.0f);
 
                     g2.init({-2.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
 
@@ -49,13 +49,13 @@ namespace MidiFi
                     Graphics::initIconMap("./assets/images/burger.png", burger, 32, 32, 0);
                     Graphics::initIconMap("./assets/images/pizzaMonster.png", pizzaMonster, 32, 32, 0);
 
-                    Graphics::initFont(jetBrainsMono, "./assets/fonts/JetBrainsMono-Medium.ttf", 12);
+                    Graphics::initFont(jetBrainsMono, "./assets/fonts/JetBrainsMono-Medium.ttf", 60);
 
                     g1.tex = Graphics::getTexture(blueberry, 0);
                     g3.tex = Graphics::getTexture(burger, 0);
                     g4.tex = Graphics::getTexture(pizzaMonster, 0);
 
-                    t1.init({-10, -10, 0}, {1.0, 0.0, 1.0, 1.0}, 30, 30, "Hello World!", jetBrainsMono);
+                    t1.init({-10, -10, 0}, {1.0, 0.0, 1.0, 1.0}, 30, 30, "Heljo world!!asdfasdfasdfasdfasdf", jetBrainsMono);
 
                     // the thing about stacks is that they copy the values being pushed, so I shouldn't get segfaults here
                     // for having local variables?
