@@ -28,14 +28,16 @@ namespace MidiFi
                     static UIElement g3 = UIElement();
                     static UIElement g4 = UIElement();
                     static Text t1;
+                    static Text t2;
                     static Graphics::IconMap im1;
                     static Graphics::IconMap im2;
                     static Graphics::IconMap blueberry;
                     static Graphics::IconMap burger;
                     static Graphics::IconMap pizzaMonster;
                     static Graphics::Font jetBrainsMono;
+                    static Graphics::Font timesNewRoman;
                     static Scene s = {};
-                    g1.init({-7.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 30.0f, 30.0f);
+                    g1.init({-7.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 10.0f, 10.0f);
 
                     g2.init({-2.5f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 3.0f, 3.0f);
 
@@ -49,13 +51,15 @@ namespace MidiFi
                     Graphics::initIconMap("./assets/images/burger.png", burger, 32, 32, 0);
                     Graphics::initIconMap("./assets/images/pizzaMonster.png", pizzaMonster, 32, 32, 0);
 
-                    Graphics::initFont(jetBrainsMono, "./assets/fonts/JetBrainsMono-Medium.ttf", 60);
+                    Graphics::initFont(jetBrainsMono, "./assets/fonts/JetBrainsMono-Medium.ttf", 32);
+                    Graphics::initFont(timesNewRoman, "./assets/fonts/times.ttf", 32);
 
                     g1.tex = Graphics::getTexture(blueberry, 0);
                     g3.tex = Graphics::getTexture(burger, 0);
                     g4.tex = Graphics::getTexture(pizzaMonster, 0);
 
-                    t1.init({-10, -10, 0}, {1.0, 0.0, 1.0, 1.0}, 30, 30, "Heljo world!!asdfasdfasdfasdfasdf", jetBrainsMono);
+                    t1.init({-20,  20, 0}, {1.0, 0.0, 1.0, 1.0}, 40, 40, "this is a test of the text box! i hope you enjoy.", jetBrainsMono);
+                    t2.init({-20, -20 , 0}, {1.0, 0.3, 0.1, 1.0}, 40, 40, "It can support multiple fonts as well!", timesNewRoman);
 
                     // the thing about stacks is that they copy the values being pushed, so I shouldn't get segfaults here
                     // for having local variables?
@@ -64,10 +68,12 @@ namespace MidiFi
                     debug.objs.push_back(g3);
                     debug.objs.push_back(g4);
                     debug.objs.push_back(t1);
+                    debug.objs.push_back(t2);
                     
                     int offset = 0;
                     debug.numQuads += g1.toRData(quadPool, debug.numQuads);
                     debug.numQuads += t1.toRData(quadPool, debug.numQuads);
+                    debug.numQuads += t2.toRData(quadPool, debug.numQuads);
                 },
                 [](double dt)
                 {

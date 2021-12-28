@@ -42,7 +42,7 @@ namespace MidiFi
     }
 
     using namespace glm;
-    vec3 screenToWorldCoords(vec2 screenPos)
+    vec3 screenToWorldCoords(const vec2 screenPos)
     {
         vec4 v = {screenPos, 0.0f, 1.0f};
 
@@ -54,7 +54,7 @@ namespace MidiFi
         return {v.x, v.y, v.z};
     }
 
-    vec3 screenToWorldSize(vec2 screenSize)
+    vec3 screenToWorldSize(const vec2 screenSize)
     {
         vec4 v = {screenSize, 0.0f, 1.0f};
         // pretend that 0, 0 in screen space is 0, 0 in world space
@@ -63,6 +63,6 @@ namespace MidiFi
 
         v = inverse(Renderer::Camera::getView()) * inverse(Renderer::Camera::getProjection()) * v;
 
-        return {v.x, v.y, v.z};
+        return {v.x, v.y, 0.0f};
     }
 }

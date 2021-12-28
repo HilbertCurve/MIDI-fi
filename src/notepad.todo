@@ -16,8 +16,10 @@ Renderer:
     Fonts:
         [+] Font loading
         [+] Font rendering
-        [ ] Displayable text demo
-    [ ] Put these changes into Pontilus engine
+        [+] Displayable text demo
+        [+] Proper word wrapping
+        [+] Kerning
+        [ ] Resizeable text elements
 
 UI:
     [ ] Plan...
@@ -28,3 +30,9 @@ Roadmap:
     [ ] Plan out a UI
     [ ] Audio
     [ ] Start work on MIDI editing and interpreting
+
+Burner:
+    [ ] Put renderer changes into Pontilus engine
+    [ ] Windows build
+    for fetching dependencies
+    [ ] CMake

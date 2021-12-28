@@ -14,7 +14,7 @@ namespace MidiFi
 
         struct Glyph
         {
-            Font *parent;
+            const Font *parent;
             float texCoords[8];
             float width, height, descent; // descent would be present in the char 'j'
         };
@@ -46,6 +46,6 @@ namespace MidiFi
         void initFont(Font &f, const char *filepath, unsigned int fontSize);
         void bindFont(Font &f);
         void unbindFont(Font &f);
-        Glyph getGlyph(Font &f, const char c);
+        Glyph getGlyph(const Font &f, const char c);
     }
 }

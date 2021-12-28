@@ -33,11 +33,13 @@
     printf("\n");\
 }
 
-#define __pAssert(x, reason) \
+#define __pAssert(x, reason, ...) \
 if (!(x))\
 {\
-    fprintf(stderr, "\x1B[01m\x1B[31mERROR: Assertion failed at file %s, line %d:\x1B[0m %s\n",\
-            __FILE__, __LINE__, reason);\
+    fprintf(stderr, "\x1B[01m\x1B[31mERROR: Assertion failed at file %s, line %d:\x1B[0m ",\
+            __FILE__, __LINE__);\
+    printf(reason __VA_OPT__(,) __VA_ARGS__);\
+    printf("\n");\
     exit(-1);\
 }
 
@@ -67,6 +69,6 @@ namespace MidiFi
     void loadFile(const char *filepath, File &fb, bool isBinary);
     void freeFile(File &f);
 
-    glm::vec3 screenToWorldCoords(glm::vec2 screenPos);
-    glm::vec3 screenToWorldSize(glm::vec2 screenSize);
+    glm::vec3 screenToWorldCoords(const glm::vec2 screenPos);
+    glm::vec3 screenToWorldSize(const glm::vec2 screenSize);
 }

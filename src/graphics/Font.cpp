@@ -69,6 +69,9 @@ namespace MidiFi
 
             /* Generate font texture */
             int x = 0, y = 0, advanceWidth = 0, leftSideBearing = 0, h;
+
+            const int padding = 2; // two pixels of extra spacing.
+
             for (int i = 33; i < 126; ++i)
             {
                 ////////                   ////////
@@ -83,7 +86,7 @@ namespace MidiFi
                 stbtt_GetCodepointHMetrics(&info, (char)i, &advanceWidth, &leftSideBearing);
 
                 // ensure we don't go out of bounds
-                if (x + advanceWidth * scale > bitmap_w)
+                if (x + advanceWidth * scale + padding > bitmap_w)
                 {
                     y += pixels;
                     x = 0;
@@ -106,10 +109,10 @@ namespace MidiFi
 
                 float texcoords[8] = 
                 {
-                    (float) x + c_x2, (float) h - c_y1 + c_y2,
-                    (float) x, (float) h - c_y1 + c_y2,
-                    (float) x, (float) h,
-                    (float) x + c_x2, (float) h,
+                    (float) x + advanceWidth * scale, (float) h - c_y1 + c_y2,
+                    (float) x,                        (float) h - c_y1 + c_y2,
+                    (float) x,                        (float) h,
+                    (float) x + advanceWidth * scale, (float) h,
                 };
 
                 glm::vec2 widthAndHeight = screenToWorldSize(glm::vec2{
@@ -138,7 +141,7 @@ namespace MidiFi
                 f.glyphs[i - 33].parent = &f;
 
                 /* Adjust x */
-                x += roundf(advanceWidth * scale);
+                x += roundf(advanceWidth * scale) + padding;
             }
             
             /*
@@ -156,7 +159,6 @@ namespace MidiFi
             glGenTextures(1, &(f.texID));
             glBindTexture(GL_TEXTURE_2D, f.texID);
 
-            // GL_RED here refers to the fact that there's only one channel (the first one)
             
             // flip bitmap, because opengl
             unsigned char *newBitmap = (unsigned char *) malloc(bitmap_w * bitmap_h);
@@ -168,6 +170,7 @@ namespace MidiFi
                 }
             }
 
+            // GL_RED here refers to the fact that there's only one channel (the first one)
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, 512, 512, 0, GL_RED, GL_UNSIGNED_BYTE, newBitmap);
 
             // a swizzle maps some channels of a texture to different ones (in this case, we turn our
@@ -176,13 +179,12 @@ namespace MidiFi
             GLint swizzleMask[] = {GL_RED, GL_RED, GL_RED, GL_RED};
             glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_RGBA, swizzleMask);
 
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
             fontPool[fontPoolStackPointer] = &f;
             fontPoolStackPointer++;
 
-            freeFile(fontFile);
             free(bitmap);
             free(newBitmap);
         }
@@ -199,7 +201,7 @@ namespace MidiFi
             f.beingUsed = false;
         }
 
-        Glyph getGlyph(Font &f, const char c)
+        Glyph getGlyph(const Font &f, const char c)
         {
             /*
             Glyph ret;

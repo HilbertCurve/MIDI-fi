@@ -24,17 +24,23 @@ namespace MidiFi
             using namespace MidiFi::Graphics;
 
             __pAssert(!(rOffset + this->text.size() * 4 >= r.vertCount / 4), "rData not big enough to hold UI data!");
+            __pAssert(this->font != nullptr, "Text must be initialized with a font.");
 
             int stride = rOffset * getLayoutLen(r) * 4;
 
             // for each character in the text, add a default quad
             glm::vec3 posAccumulate = {0.0f, 0.0f, 0.0f};
+            const float scale = this->font->fontSize / (this->font->ascent - this->font->descent);
             
-            for (char c : this->text)
+            for (int i = 0; i < this->text.length(); i++)
             {
+                char c = this->text[i];
                 Glyph g = getGlyph(*this->font, c);
-                
 
+                ////////          ////////
+                // Insertion into rData //
+                ////////          ////////
+            
                 for (int i = 0; i < 4; i++)
                 {
                     glm::vec3 orientation;
@@ -95,16 +101,45 @@ namespace MidiFi
                     stride += getLayoutLen(r);
                 }
 
+                ////////                                   ////////
+                // Spacing of chars based on Text specifications //
+                ////////                                   ////////
+
+                // if char is a space, check if total width of next word causes overflow.
+                int nextWordLength = 0;
+                if (c == ' ')
+                {
+                    if (i + 1 != this->text.length())
+                    {
+                        int next = i + 1;
+                        char curr = '\000';
+                        while (curr != ' ' && next < this->text.length())
+                        {
+                            curr = this->text.at(next);
+                            nextWordLength += getGlyph(*this->font, curr).width;
+                            next++;
+                        }
+                    }
+                }
 
                 posAccumulate.x += g.width;
 
+                // kern please
+                if (i + 1 != this->text.length())
+                {
+                    posAccumulate += screenToWorldSize({scale * stbtt_GetCodepointKernAdvance(&(g.parent->info), this->text[i], this->text[i + 1]), 0.0f});
+                }
+
                 // if align is to the left
-                if (posAccumulate.x > this->width)
+                if (nextWordLength + posAccumulate.x > this->width && i + 1 < this->text.length() && this->text[i + 1] != ' ')
                 {
                     posAccumulate.x = 0;
                     posAccumulate.y += screenToWorldSize(glm::vec2(0.0f, g.parent->ascent - g.parent->descent + g.parent->lineGap)).y;
                 }
+
             }
+            
+            __pAssert(scale == this->font->fontSize / (this->font->ascent - this->font->descent), "A font was trampled on!");
 
             return stride / (4 * getLayoutLen(r));
         }
