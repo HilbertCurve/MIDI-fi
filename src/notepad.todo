@@ -11,18 +11,23 @@ Renderer:
         only is around 8 KB total), but is mildly slower if many icons need to be loaded
         (that's usually done in the loading screen anyways).
     
-    [ ] Should I position elements based on a corner or it's center?
-    
-    Fonts:
+    Fonts and Text:
         [+] Font loading
         [+] Font rendering
         [+] Displayable text demo
-        [+] Proper word wrapping
+        [ ] Proper word wrapping
         [+] Kerning
-        [ ] Resizeable text elements
+        [+] Resizeable text elements
+        idk, it looks good enough for now
+        [-] Fine tuning the uv coords
 
 UI:
-    [ ] Plan...
+    [+] Refactor UIElement to be an interface.
+    A UIObject is composed of one or more UIElements, which position themselves 
+    based on the UIObject's specification. For example, a Button would have an
+    icon, some text, and a background quad, and would submit a mouse-pressed callback.
+    [ ] UIObjects
+    [ ] Should I position elements based on a corner or it's center?
 
 Roadmap:
     [ ] Fix the renderer
@@ -34,5 +39,5 @@ Roadmap:
 Burner:
     [ ] Put renderer changes into Pontilus engine
     [ ] Windows build
-    for fetching dependencies
     [ ] CMake
+    for fetching dependencies on machines that don't use glfw, etc.
