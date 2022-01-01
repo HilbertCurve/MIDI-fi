@@ -42,7 +42,7 @@ namespace MidiFi
 
     static void initQuads()
     {
-        Graphics::initRData(quadPool, 1000);
+        Graphics::initRData(quadPool, 2000);
 
         Graphics::initRData(fullWindowQuad, 4, fullWindowQuadAttribs, 2);
         glm::vec3 orientation;
@@ -266,7 +266,6 @@ namespace MidiFi
 
             if (timeAccum >= 0.016f)
             {
-                //getCurrentScene()->update(0.016f);
                 timeAccum = 0;
             }
             /*
@@ -297,12 +296,12 @@ namespace MidiFi
             */
             static bool keyIsPressed0 = false;
             static bool keyIsPressed1 = false;
-            if (IO::isKeyPressed(GLFW_KEY_R))
+            if (IO::isKeyPressed(GLFW_KEY_LEFT_SHIFT) && IO::isKeyPressed(GLFW_KEY_LEFT_CONTROL) && IO::isKeyPressed(GLFW_KEY_R))
             {
                 keyIsPressed0 = true;
                 if (!(keyIsPressed0 == keyIsPressed1))
                 {
-                    Graphics::printRData(quadPool, 20);
+                    Graphics::printRData(quadPool, getCurrentScene()->numQuads * 4);
                     // don't do this; prints and whatnot should be handled in the scene, not in this loop
                     keyIsPressed1 = keyIsPressed0 = true;
                 }
@@ -311,6 +310,8 @@ namespace MidiFi
             {
                 keyIsPressed1 = false;
             }
+
+            getCurrentScene()->update(dt);
            
             // render
             Renderer::render();

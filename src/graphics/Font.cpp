@@ -70,9 +70,9 @@ namespace MidiFi
             /* Generate font texture */
             int x = 0, y = 0, advanceWidth = 0, leftSideBearing = 0, h;
 
-            const int padding = 2; // two pixels of extra spacing.
+            const int padding = 2; // two pixels of extra spacing between chars, so anti-aliasing doesn't mess something up.
 
-            for (int i = 33; i < 126; ++i)
+            for (int i = 32; i < 126; ++i)
             {
                 ////////                   ////////
                 // Insert character into texture //
@@ -88,7 +88,7 @@ namespace MidiFi
                 // ensure we don't go out of bounds
                 if (x + advanceWidth * scale + padding > bitmap_w)
                 {
-                    y += pixels;
+                    y += pixels + padding;
                     x = 0;
                 }
 
@@ -109,10 +109,10 @@ namespace MidiFi
 
                 float texcoords[8] = 
                 {
-                    (float) x + advanceWidth * scale, (float) h - c_y1 + c_y2,
-                    (float) x,                        (float) h - c_y1 + c_y2,
-                    (float) x,                        (float) h,
-                    (float) x + advanceWidth * scale, (float) h,
+                    (float) x + (advanceWidth + leftSideBearing) * scale, (float) h - c_y1 + c_y2,
+                    (float) x + leftSideBearing * scale,                        (float) h - c_y1 + c_y2,
+                    (float) x + leftSideBearing * scale,                        (float) h,
+                    (float) x + (advanceWidth + leftSideBearing) * scale, (float) h,
                 };
 
                 glm::vec2 widthAndHeight = screenToWorldSize(glm::vec2{
@@ -132,13 +132,13 @@ namespace MidiFi
                 }
 
                 // at this point it's ready as an opengl texture
-                memcpy((void *) f.glyphs[i - 33].texCoords, texcoords, 8 * sizeof(float));
+                memcpy((void *) f.glyphs[i - 32].texCoords, texcoords, 8 * sizeof(float));
 
-                f.glyphs[i - 33].width = widthAndHeight.x;
-                f.glyphs[i - 33].height = widthAndHeight.y;
-                f.glyphs[i - 33].descent = screenToWorldSize(glm::vec2{0.0f, c_y2}).y;
+                f.glyphs[i - 32].width = widthAndHeight.x;
+                f.glyphs[i - 32].height = widthAndHeight.y;
+                f.glyphs[i - 32].descent = screenToWorldSize(glm::vec2{0.0f, c_y2}).y;
 
-                f.glyphs[i - 33].parent = &f;
+                f.glyphs[i - 32].parent = &f;
 
                 /* Adjust x */
                 x += roundf(advanceWidth * scale) + padding;
@@ -179,8 +179,8 @@ namespace MidiFi
             GLint swizzleMask[] = {GL_RED, GL_RED, GL_RED, GL_RED};
             glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_RGBA, swizzleMask);
 
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
             fontPool[fontPoolStackPointer] = &f;
             fontPoolStackPointer++;
@@ -228,18 +228,19 @@ namespace MidiFi
                 screenToWorldSize(glm::vec2{f.fontSize, 0.0f});
             ret.width = widthAndHeight.x;
             ret.height = widthAndHeight.y;
-            */
+
             static glm::vec2 sWidthAndHeight = screenToWorldSize(glm::vec2{f.fontSize / 2, 0.0f});
 
-            // WARNING: I don't know how to get the space character info, so I'm using '!' as a replacement.
+            // TODO: I don't know how to get the space character info, so I'm using '!' as a replacement.
             static Glyph space = { &f, {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}, f.glyphs[0].width, f.glyphs[0].height };
+            */
             
-            if (c < 33 || c > 126)
+            if (c < 32 || c > 126)
             {
-                return space;
+                return f.glyphs[0];
             }
 
-            return f.glyphs[c - 33];
+            return f.glyphs[c - 32];
         }
     }
 }

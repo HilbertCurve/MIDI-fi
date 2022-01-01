@@ -62,10 +62,8 @@ namespace MidiFi
                 currentMode.generateIndices(elementIndices, i);
             }
 
-            GLuint eboID;
-            glGenBuffers(1, &eboID);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboID);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elementIndices), elementIndices, GL_STATIC_DRAW);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elementIndices), elementIndices, GL_DYNAMIC_DRAW);
         }
 
         static void enableVertexAttribs(Graphics::rData &r)
@@ -96,6 +94,8 @@ namespace MidiFi
             glGenBuffers(1, &vboID);
             glGenBuffers(1, &postvboID);
 
+            glGenBuffers(1, &eboID);
+
             //GLint elementIndices[] = {3, 2, 0, 0, 2, 1};
 
             glGenVertexArrays(1, &vaoID);
@@ -125,6 +125,8 @@ namespace MidiFi
             {
                 numObjects = getCurrentScene()->numQuads;
             }
+            setPrimitive(MidiFi::Graphics::Primitives::QUAD);
+            
 
             Graphics::attachShader(gameShader);
             // default shader uniforms

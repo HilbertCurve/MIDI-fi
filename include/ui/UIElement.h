@@ -12,21 +12,17 @@ namespace MidiFi
 {
     namespace UI
     {
-        struct UIElement
+        class UIElement
         {
-            UIElement() = default;
-
+            public:
             glm::vec3 pos;
             glm::vec4 color;
             float width, height;
-
-            Graphics::Texture tex = {nullptr};
-            Graphics::Primitive prim = Graphics::Primitives::QUAD;
             
             // should I overload contructor?? it's basically the same as {} contruction
             void init(glm::vec3 pos, glm::vec4 color, float width, float height);
-            int toRData(Graphics::rData &r, unsigned int rOffset);
-            void toRData(Graphics::rData &r, unsigned int rOffset, Graphics::vProp property);
+            virtual int toRData(Graphics::rData &r, unsigned int rOffset) = 0;
+            virtual void toRData(Graphics::rData &r, unsigned int rOffset, Graphics::vProp property) = 0;
         };
     }
 }

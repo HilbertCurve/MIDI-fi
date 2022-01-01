@@ -8,11 +8,14 @@
 #define NUM_MOUSE_BUTTONS 6
 #define NUM_KEYS 350
 #define LEFTOVER_MEM 475
+#ifndef MAX_CALLBACKS
+# define MAX_CALLBACKS 64
+#endif
 
 namespace MidiFi
 {
     namespace IO
-    {        
+    {
         struct Mouse
         {
             // 199 bits
@@ -28,6 +31,24 @@ namespace MidiFi
             bool keysPressed[NUM_KEYS];
         };
 
+        struct _buttonCallback
+        {
+            int id;
+            void (* ptr)(int button, int action);
+        };
+
+        struct _scrollCallback
+        {
+            int id;
+            void (* ptr)(float dx, float dy);
+        };
+
+        struct _keyCallback
+        {
+            int id;
+            void (* ptr)(int key, int action);
+        };
+
         // TOTAL MEMORY: 1 kb
         struct _IO
         {
@@ -38,6 +59,8 @@ namespace MidiFi
             } core;
             // do with this as you please (perhaps some other usb input method)
             bool misc[LEFTOVER_MEM];
+
+            _IO(); // to initialize empty callbacks
         };
 
         /**
@@ -65,5 +88,14 @@ namespace MidiFi
         void mouseButtonCallback(GLFWwindow *window, int button, int action, int mods);
         void mouseScrollCallback(GLFWwindow *window, double xOffset, double yOffset);
         void keyPressedCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
+
+        // Application callbacks
+        int submitButtonCallback(void (* callback)(int button, int action));
+        int submitScrollCallback(void (* callback)(float dx, float dy));
+        int submitKeyCallback(void (* callback)(int key, int action));
+
+        void removeButtonCallback(int id);
+        void removeScrollCallback(int id);
+        void removeKeyCallback(int id);
     }
 }

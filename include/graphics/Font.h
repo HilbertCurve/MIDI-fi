@@ -37,7 +37,7 @@ namespace MidiFi
             // this is for finding kern info, advance, and other font
             // metrics. 
             stbtt_fontinfo info;
-            Glyph glyphs[96];
+            Glyph glyphs[97];
 
             GLuint texID;
             bool beingUsed;
