@@ -1,0 +1,67 @@
+I'm refactoring everything; it doesn't make sense to have a music-editing project be based off a game engine.
+The following roadmap is a prototype.
+
+Audio:
+    AudioMaster.cpp:
+        [ ] OpenAL system - opening audio devices and such
+        [ ] WAV files
+        [ ] OGG files
+        mp3? MIDI at some point
+    AudioUtils.cpp:
+        [ ] Audio playback
+        [ ] Audio streaming
+        [ ] Audio recording
+        Audio effects? pitch, gain, reverb, etc. ???
+
+Core:
+    Input.cpp:
+        [ ] Mouse - position, scroll, buttons
+        [ ] Keyboard - keys, modifiers?
+    Application.cpp:
+        [ ] Runtime info
+        [ ] GLFW window
+        a scene is a collection of UI elements
+        [ ] Scenes
+    Memory.cpp:
+        [ ] Pre-allocated arenas for buffers & UI elements
+        [ ] Vectors and Lists
+
+Graphics:
+    Renderer.cpp:
+        [ ] Shaders
+        [ ] Camera - units will be measured in pixels
+        [ ] Complex renderable primitives
+        [ ] Buffers - I might use the rData system
+    Texture.cpp:
+        [ ] OpenGL textures
+        [ ] IconMaps
+    Text.cpp:
+        [ ] Font loading
+        [ ] Font texture generation
+        [ ] CORRECT UVs FOR FONTS!
+        
+
+UI:
+    a file for each element
+    [ ] Text elements
+    [ ] Text boxes
+    [ ] Buttons
+    [ ] Scrollbars
+    [ ] Checkmarks
+    [ ] UI themes
+    UI element composition:
+        [ ] Relative element positioning
+        [ ] Ownership system
+    MIDI-editor:
+        [ ] Grid
+        [ ] Piano overlay
+        [ ] Notes
+    UI (de)serialization:
+        [ ] Some form of XML parser; probably 3rd party
+        [ ] XML serialization
+        [ ] XML deserialization
+
+MIDI utils:
+    [ ] MIDI serialization
+    [ ] MIDI deserialization
+    [ ] MIDI playback
