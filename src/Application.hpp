@@ -11,4 +11,4 @@ namespace MidiFi {
     void loop();
 }
 
-#endif /* MIDIFI_APPLICATION_HPP */
+#endif // MIDIFI_APPLICATION_HPP

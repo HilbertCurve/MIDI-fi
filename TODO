@@ -19,7 +19,7 @@ Core:
         [ ] Keyboard - keys, modifiers?
     Application.cpp:
         [ ] Runtime info
-        [ ] GLFW window
+        [+] GLFW window
         a scene is a collection of UI elements
         [ ] Scenes
     Memory.cpp:
