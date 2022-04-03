@@ -12,3 +12,4 @@ namespace MidiFi {
 }
 
 #endif // MIDIFI_APPLICATION_HPP
+

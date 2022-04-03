@@ -1,5 +1,5 @@
-I'm refactoring everything; it doesn't make sense to have a music-editing project be based off a game engine.
-The following roadmap is a prototype.
+I'm redoing everything; it doesn't make sense to have a music-editing
+project be based off a game engine.  The following roadmap is a prototype.
 
 Audio:
     AudioMaster.cpp:
@@ -15,8 +15,8 @@ Audio:
 
 Core:
     Input.cpp:
-        [ ] Mouse - position, scroll, buttons
-        [ ] Keyboard - keys, modifiers?
+        [+] Mouse - position, scroll, buttons
+        [+] Keyboard - keys, modifiers?
     Application.cpp:
         [ ] Runtime info
         [+] GLFW window
@@ -24,18 +24,19 @@ Core:
         [ ] Scenes
     Memory.cpp:
         [ ] Pre-allocated arenas for buffers & UI elements
+        [ ] Dumps - append-only vectors
         [ ] Vectors and Lists
 
 Graphics:
-    Renderer.cpp:
+    Graphics.cpp:
         [ ] Shaders
+        [ ] Framebuffers
         [ ] Camera - units will be measured in pixels
         [ ] Complex renderable primitives
         [ ] Buffers - I might use the rData system
-    Texture.cpp:
         [ ] OpenGL textures
         [ ] IconMaps
-    Text.cpp:
+    Font.cpp:
         [ ] Font loading
         [ ] Font texture generation
         [ ] CORRECT UVs FOR FONTS!

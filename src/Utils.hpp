@@ -39,7 +39,17 @@ exit(-1);                                                   \
 }
 
 namespace MidiFi {
-
+    class String {
+        public:
+        String();
+        String(const char *src);
+        ~String();
+        String &operator=(const String &s);
+        String &operator=(const char *s);
+        char *src;
+        int len;
+    };
 }
 
 #endif // MIDIFI_UTILS_HPP
+
