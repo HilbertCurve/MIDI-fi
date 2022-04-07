@@ -6,6 +6,7 @@
 
 #include "Input.hpp"
 #include "Memory.hpp"
+#include "Renderer.hpp"
 #include "Utils.hpp"
 
 namespace MidiFi {
@@ -13,12 +14,11 @@ namespace MidiFi {
         m_log_warning("GLFW error code %d: %s", error, description);
     }
 
-    struct Window {
-        int width, height;
-        GLFWwindow *glfw_back;
-        const char *title;
-    };
     static Window window;
+
+    Window getWindow() {
+        return window;
+    }
 
     void init() {
         glfwSetErrorCallback(printError);
@@ -69,6 +69,8 @@ namespace MidiFi {
         // initialize program
         // memory
 
+
+        startRenderer();
         // print pc/gl info
     }
 
@@ -83,6 +85,8 @@ namespace MidiFi {
             if (keyPressed(GLFW_KEY_D)) {
                 m_log_message("Key 'd' is pressed");
             }
+
+            updateRenderer();
 
             glfwSwapBuffers(window.glfw_back);
 
