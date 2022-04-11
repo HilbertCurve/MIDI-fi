@@ -23,14 +23,20 @@ Core:
         a scene is a collection of UI elements
         [ ] Scenes
     Memory.cpp:
-        [ ] Pre-allocated arenas for buffers & UI elements
-        [ ] Dumps - append-only vectors
-        [ ] Vectors and Lists
+        [-] Pre-allocated arenas for buffers & UI elements
+        [-] Dumps - append-only vectors
+        [-] Vectors and Lists
+        [+] Custom memory allocator 
+    Utils.cpp:
+        Strings:
+            [+] String wrapper over const char*
+            [ ] String concatenation
+            [ ] Other string utils
 
 Graphics:
     Graphics.cpp:
-        [ ] Shaders
-        [ ] Framebuffers
+        [+] Shaders
+        [-] Framebuffers - not necessary
         [ ] Camera - units will be measured in pixels
         [ ] Complex renderable primitives
         [ ] Buffers - I might use the rData system

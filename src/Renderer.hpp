@@ -7,6 +7,7 @@
 #include "Utils.hpp"
 
 namespace MidiFi {
+namespace Renderer {
     /*
      * Define this macro if you want finer control over
      * the rendering system. It is used in Renderer.cpp.
@@ -121,8 +122,9 @@ namespace MidiFi {
         VertexAttributes va;
     };
 #endif // MIDIFI_RENDERER_INCLUDE_CORE
-    void startRenderer();
-    void updateRenderer();
+    void start();
+    void update();
+}
 }
 
 #endif // MIDIFI_RENDERER_HPP

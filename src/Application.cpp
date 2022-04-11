@@ -53,11 +53,11 @@ namespace MidiFi {
                                      glViewport(0, 0, window.width, window.height);
                                  });
     
-        glfwSetCursorPosCallback(window.glfw_back, _GLFW_mousePos);
-        glfwSetScrollCallback(window.glfw_back, _GLFW_mouseScroll);
-        glfwSetMouseButtonCallback(window.glfw_back, _GLFW_mouseButton);
+        glfwSetCursorPosCallback(window.glfw_back, Input::_GLFW_mousePos);
+        glfwSetScrollCallback(window.glfw_back, Input::_GLFW_mouseScroll);
+        glfwSetMouseButtonCallback(window.glfw_back, Input::_GLFW_mouseButton);
 
-        glfwSetKeyCallback(window.glfw_back, _GLFW_keyPress);
+        glfwSetKeyCallback(window.glfw_back, Input::_GLFW_keyPress);
 
         glfwShowWindow(window.glfw_back);
 
@@ -70,7 +70,7 @@ namespace MidiFi {
         // memory
 
 
-        startRenderer();
+        Renderer::start();
         // print pc/gl info
     }
 
@@ -78,19 +78,16 @@ namespace MidiFi {
         while (!glfwWindowShouldClose(window.glfw_back)) {
             // poll mouse/keyboard/window events
             glfwPollEvents();
-            // set default background
-            glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT);
 
-            if (keyPressed(GLFW_KEY_D)) {
-                m_log_message("Key 'd' is pressed");
+            if (Input::keyPressed(GLFW_KEY_D)) {
+                m_log_message("Window width and height: %d, %d.", window.width, window.height);
             }
 
-            updateRenderer();
+            Renderer::update();
 
             glfwSwapBuffers(window.glfw_back);
 
-            endFrame();
+            Input::endFrame();
         }
 
 

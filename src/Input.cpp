@@ -8,6 +8,7 @@
 #define K_KEYS 350
 
 namespace MidiFi {
+namespace Input {
     static bool _mButtons[M_BUTTONS];
     static bool _kKeys[K_KEYS];
     static float x = 0, y = 0, lastx = 0, lasty = 0, scrollx = 0, scrolly = 0;
@@ -63,5 +64,6 @@ namespace MidiFi {
             _kKeys[key] = false;
         }
     }
+}
 }
 

@@ -8,6 +8,7 @@
 struct GLFWwindow;
 
 namespace MidiFi {
+namespace Input {
     /**
      * Checks if mouse button is pressed.
      */
@@ -42,6 +43,7 @@ namespace MidiFi {
     void _GLFW_mouseButton(GLFWwindow *w, int button, int action, int mods);
     void _GLFW_mouseScroll(GLFWwindow *w, double x, double y);
     void _GLFW_keyPress(GLFWwindow *w, int key, int scancode, int action, int mods);
+}
 }
 
 #endif // MIDIFI_INPUT_HPP

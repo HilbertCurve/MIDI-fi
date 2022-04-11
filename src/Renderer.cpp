@@ -10,6 +10,7 @@
 #include "Utils.hpp"
 
 namespace MidiFi {
+namespace Renderer {
     ///////////////////
     // Shaders
     ///////////////////
@@ -206,20 +207,67 @@ namespace MidiFi {
     }
 
     static Shader standard;
-    void startRenderer() {
+    GLuint vao, vbo, ibo;
+
+    const float vertices[] = {
+        -10.0f, -10.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+        -10.0f, 10.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+        10.0f, 10.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+        10.0f, -10.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+    };
+    const int indices[] = {
+        0, 1, 3, 1, 3, 2
+    };
+
+    void start() {
         // initialize default shader
         standard.vertexCode = defaultVertexShader;
         standard.fragmentCode = defaultFragmentShader;
-        initShader(standard, 
-                nullptr, nullptr);
+        initShader(standard, nullptr, nullptr);
+
+        glGenVertexArrays(1, &vao);
+        glBindVertexArray(vao);
+
+        glGenBuffers(1, &vbo);
+        glGenBuffers(1, &ibo);
+
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+
+        int stride = 10 * sizeof(float);
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, stride, (void*)0);
+        glVertexAttribPointer(1, 4, GL_FLOAT, false, stride, (void*)(3 * sizeof(float)));
+        glVertexAttribPointer(2, 2, GL_FLOAT, false, stride, (void*)(7 * sizeof(float)));
+        glVertexAttribPointer(3, 1, GL_FLOAT, false, stride, (void*)(9 * sizeof(float)));
     }
 
-    void updateRenderer() {
+    void update() {
         attachShader(standard);
+        glClearColor(0.0, 0.0, 0.0, 0.1);
+        glClear(GL_COLOR_BUFFER_BIT);
 
+        glBindVertexArray(vao);
 
+        for (int i = 0; i < 4; i++) {
+            glEnableVertexAttribArray(i);
+        }
+
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0], GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &indices[0], GL_DYNAMIC_DRAW);
+
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+        for (int i = 0; i < 4; i++) {
+            glDisableVertexAttribArray(i);
+        }
+
+        glBindVertexArray(0);
 
         detachShader(standard);
     }
+}
 }
 
