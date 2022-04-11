@@ -90,6 +90,7 @@ namespace MidiFi {
             Input::endFrame();
         }
 
+        Renderer::close();
 
         glfwDestroyWindow(window.glfw_back);
         glLinkProgram(0);

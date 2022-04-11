@@ -8,11 +8,6 @@
 
 namespace MidiFi {
 namespace Renderer {
-    /*
-     * Define this macro if you want finer control over
-     * the rendering system. It is used in Renderer.cpp.
-     */
-#ifdef MIDIFI_RENDERER_INCLUDE_CORE
     ///////////////////////
     // Shaders
     ///////////////////////
@@ -88,11 +83,18 @@ namespace Renderer {
 
     void attachFramebuffer(Framebuffer &f);
     void detachFramebuffer(Framebuffer &f);
+    ////////////////
+    // Textures
+    ////////////////
 
     struct Texture {
         unsigned int id;
         const char *sourceFP;
     };
+
+    /////////////////
+    // Buffers
+    /////////////////
 
     enum vType {
         SHORT = 0,
@@ -109,21 +111,75 @@ namespace Renderer {
         OTHER
     };
 
-    struct VertexAttributes {
+    enum Primitive {
+        QUAD = 0,
+        LINE, // polygons will add to the line buffer
+        CIRCLE
+    };
+
+    struct BufferDescriptor {
         int len;
         struct {
             vProp prop;
             vType type;
         } vAttrib;
+
+        Primitive prim;
+        int primitiveLength;
     };
 
     struct VertexBuffer {
         void *data;
-        VertexAttributes va;
+        unsigned long numVerts;
+        BufferDescriptor desc;
     };
-#endif // MIDIFI_RENDERER_INCLUDE_CORE
+
+    struct Quad {
+        glm::vec3 pos;
+        float width, height;
+        glm::vec4 color;
+        Texture *t;
+
+        VertexBuffer *vb;
+    };
+
+    struct Line {
+        glm::vec2 pos1, pos2;
+        glm::vec4 color;
+        
+        VertexBuffer *vb;
+    };
+
+    struct Polygon {
+        glm::vec2 *points;
+        float numPoints;
+        glm::vec4 color;
+
+        VertexBuffer *vb;
+    };
+
+    struct Circle {
+        glm::vec2 pos;
+        float radius;
+        glm::vec4 color;
+
+        VertexBuffer *vb;
+    };
+
+    void drawQuad(glm::vec2 pos, float width, float height);
+    void drawQuad(
+            glm::vec2 pos,
+            float width,
+            float height,
+            glm::vec4 color,
+            IconMap &im);
+    void drawLine(Line &l);
+    void drawPoly(Polygon &p);
+    void drawCircle(Circle &c);
+
     void start();
     void update();
+    void close();
 }
 }
 

@@ -17,12 +17,11 @@ namespace MidiFi {
         void *id;
 
         AllocEntry *next;
-        AllocEntry &operator[](size_t index);
     };
 
-    AllocEntry &AllocEntry::operator[](size_t index) {
-        if (index) return this->next->operator[](index - 1);
-        else return *this;
+    AllocEntry &follow(AllocEntry *first, int index) {
+        if (index == 0) return *first;
+        else return follow(first->next, --index);
     }
 
     static AllocEntry *_entries = nullptr;
@@ -41,7 +40,7 @@ namespace MidiFi {
             _entry = (AllocEntry *) malloc(sizeof(AllocEntry));
             _entry->purpose = purpose;
             _entry->size = size;
-            _entries[_count - 1].next = _entry;
+            follow(_entries, _count - 1).next = _entry;
             _count++;
         }
 

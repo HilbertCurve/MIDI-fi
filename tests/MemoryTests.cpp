@@ -26,5 +26,14 @@ int main() {
 
     m_assert(size == 0, 
             "Function `m_free(void *)` failed assertion.");
+
+    d = (int *) m_malloc((10), "Large allocation");
+    float *a = (float *) m_malloc((10), "Second large allocation");
+    float *b = (float *) m_malloc((10), "Third large allocation");
+    float *c = (float *) m_malloc((10), "Fourth large allocation");
+    m_free(a);
+    m_free(b);
+    m_free(c);
+    m_free(d);
 }
 

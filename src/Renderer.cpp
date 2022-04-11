@@ -7,6 +7,7 @@
 #include <cstdio>
 
 #include "Application.hpp"
+#include "Memory.hpp"
 #include "Utils.hpp"
 
 namespace MidiFi {
@@ -206,6 +207,11 @@ namespace Renderer {
         f.isUsed = false;
     }
 
+    ////////////////
+    // Primitives
+    ////////////////
+    static VertexBuffer _quadVB, _lineVB, _circleVB;
+
     static Shader standard;
     GLuint vao, vbo, ibo;
 
@@ -219,7 +225,14 @@ namespace Renderer {
         0, 1, 3, 1, 3, 2
     };
 
+
+
     void start() {
+        // initialize vertex buffers
+        _quadVB.data = m_malloc(Kilobytes(10), "quad vertex buffer");
+        _lineVB.data = m_malloc(Gigabytes(10), "line vertex buffer");
+        _circleVB.data = m_malloc(Kilobytes(10), "circle vertex buffer");
+
         // initialize default shader
         standard.vertexCode = defaultVertexShader;
         standard.fragmentCode = defaultFragmentShader;
@@ -267,6 +280,15 @@ namespace Renderer {
         glBindVertexArray(0);
 
         detachShader(standard);
+    }
+
+    void close() {
+        standard.vertexCode.~String();
+        standard.fragmentCode.~String();
+
+        m_free(_quadVB.data);
+        m_free(_lineVB.data);
+        m_free(_circleVB.data);
     }
 }
 }
